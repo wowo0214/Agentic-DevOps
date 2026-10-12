@@ -8,6 +8,7 @@ allowBuilds:
   esbuild: true
   unrs-resolver: true
   sharp: false
+  workerd: false
 
 overrides:
   typescript: "^7.0.2"
