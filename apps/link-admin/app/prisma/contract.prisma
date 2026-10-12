@@ -1,21 +1,21 @@
 // use prisma-8
 // Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
-
-model user {
+model User {
   id            String            @id(map: "user_pkey")
   name          String
   email         String            @unique(map: "user_email_key")
   emailVerified Boolean
+  phone         String?
   image         String?
   createdAt     TimestamptzString @default(now())
   updatedAt     TimestamptzString @default(now())
-  accounts      account[]
-  sessions      session[]
+  accounts      Account[]
+  sessions      Session[]
 
   @@map("user")
 }
 
-model account {
+model Account {
   id                    String             @id(map: "account_pkey")
   accountId             String
   providerId            String
@@ -29,13 +29,13 @@ model account {
   password              String?
   createdAt             TimestamptzString  @default(now())
   updatedAt             TimestamptzString
-  user                  user               @relation(fields: [userId], references: [id], onDelete: Cascade, map: "account_userId_fkey")
+  user                  User               @relation(fields: [userId], references: [id], onDelete: Cascade, map: "account_userId_fkey")
 
   @@index([userId], map: "account_userId_idx")
   @@map("account")
 }
 
-model prismaMigrations {
+model PrismaMigrations {
   id                VarChar(36)        @id(map: "_prisma_migrations_pkey")
   checksum          VarChar(64)
   finishedAt        TimestamptzString? @map("finished_at")
@@ -48,7 +48,7 @@ model prismaMigrations {
   @@map("_prisma_migrations")
 }
 
-model session {
+model Session {
   id        String            @id(map: "session_pkey")
   expiresAt TimestamptzString
   token     String            @unique(map: "session_token_key")
@@ -57,13 +57,13 @@ model session {
   ipAddress String?
   userAgent String?
   userId    String
-  user      user              @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_userId_fkey")
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_userId_fkey")
 
   @@index([userId], map: "session_userId_idx")
   @@map("session")
 }
 
-model verification {
+model Verification {
   id         String            @id(map: "verification_pkey")
   identifier String
   value      String

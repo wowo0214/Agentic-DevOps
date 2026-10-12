@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "contract:infer": "prisma contract infer --output ./app/prisma/contract.prisma && pnpm contract:emit",
-    "contract:emit": "node scripts/lowercase-prisma-models.mjs && prisma contract emit"
+    "prisma:infer": "prisma contract infer --output ./app/prisma/contract.prisma",
+    "prisma:emit": "node scripts/lowercase-prisma-models.mjs"
   },
   "dependencies": {
     "@better-auth-ui/core": "^1.7.27",
