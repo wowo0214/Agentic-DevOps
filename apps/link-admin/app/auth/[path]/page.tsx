@@ -1,19 +1,34 @@
-import { viewPaths } from "@better-auth-ui/core"
-import { notFound } from "next/navigation"
-import { Suspense } from "react"
-import { Auth } from "@repo/ui/auth"
+import { viewPaths } from '@better-auth-ui/core'
+import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
+import { Auth } from '@repo/ui/auth'
 
 const validAuthPaths = new Set(Object.values(viewPaths.auth))
 
-export default function AuthPage({ params }: { params: Promise<{ path: string }> }) {
+export default function AuthPage({
+  params,
+}: {
+  params: Promise<{ path: string }>
+}) {
   return (
-    <Suspense fallback={<main className="my-auto flex justify-center p-4 md:p-6" aria-busy="true" />}>
+    <Suspense
+      fallback={
+        <main
+          className="my-auto flex justify-center p-4 md:p-6"
+          aria-busy="true"
+        />
+      }
+    >
       <AuthPageContent params={params} />
     </Suspense>
   )
 }
 
-async function AuthPageContent({ params }: { params: Promise<{ path: string }> }) {
+async function AuthPageContent({
+  params,
+}: {
+  params: Promise<{ path: string }>
+}) {
   const { path } = await params
   if (!validAuthPaths.has(path)) notFound()
 

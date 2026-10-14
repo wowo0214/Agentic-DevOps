@@ -1,24 +1,34 @@
-import { copyFile, mkdir, readFile } from "node:fs/promises"
+import { watch } from "node:fs"
+import { copyFile, mkdir } from "node:fs/promises"
 import { fileURLToPath } from "node:url"
 import { bundle } from "bunchee"
+import { getEntryPoints } from "./entry-points.mjs"
 
 const cwd = fileURLToPath(new URL("../", import.meta.url))
-const packageJson = JSON.parse(
-  await readFile(new URL("../package.json", import.meta.url), "utf8")
-)
+const watchMode = process.argv.includes("--watch")
+const componentEntries = await getEntryPoints()
 
-const componentEntries = Object.keys(packageJson.exports)
-  .filter((entry) => entry !== "./styles")
-  .map((entry) => entry === "." ? "./index" : entry)
+async function copyStyles() {
+  await mkdir(new URL("../dist/", import.meta.url), { recursive: true })
+  await copyFile(
+    new URL("../src/styles.css", import.meta.url),
+    new URL("../dist/styles.css", import.meta.url)
+  )
+}
 
 await bundle("", {
   cwd,
   clean: true,
-  _entryFilter: componentEntries
+  watch: watchMode,
+  _entryFilter: componentEntries,
+  onSuccess: copyStyles
 })
 
-await mkdir(new URL("../dist/", import.meta.url), { recursive: true })
-await copyFile(
-  new URL("../src/styles.css", import.meta.url),
-  new URL("../dist/styles.css", import.meta.url)
-)
+if (watchMode) {
+  watch(new URL("../src/styles.css", import.meta.url), () => {
+    copyStyles().catch((error) => {
+      console.error(error)
+      process.exitCode = 1
+    })
+  })
+}

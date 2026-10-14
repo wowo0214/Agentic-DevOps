@@ -1,0 +1,33 @@
+diff --git a/dist/lib/fs/rename.js b/dist/lib/fs/rename.js
+index ba9f169898a5a02664df5c0a45a72ea2cf28ef73..be66c3b757ec2db2cadf2f626d7a14c4f2d0e302 100644
+--- a/dist/lib/fs/rename.js
++++ b/dist/lib/fs/rename.js
+@@ -33,6 +33,7 @@ Object.defineProperty(exports, "renameSync", {
+     }
+ });
+ const _nodefs = require("node:fs");
++const renameRetryWaitBuffer = new Int32Array(new SharedArrayBuffer(4));
+ function renameSync(source, target, windowsRetryTimeout = 60000 /* matches graceful-fs */ ) {
+     if (source === target) {
+         return; // simulate node.js behaviour here and do a no-op if paths match
+@@ -60,10 +61,6 @@ function renameSyncWithRetry(source, target, startTime, retryTimeout, attempt =
+             throw error // give up after configurable timeout
+             ;
+         }
+-        if (attempt > 100) {
+-            console.error(`Node.js fs rename failed after ${attempt} retries with error ${error}`);
+-            throw error;
+-        }
+         if (attempt === 0) {
+             let abortRetry = false;
+             try {
+@@ -79,6 +76,9 @@ function renameSyncWithRetry(source, target, startTime, retryTimeout, attempt =
+                 throw error;
+             }
+         }
++        // Give transient Windows file locks time to clear. Without this delay,
++        // all retries finish almost immediately and the 60-second timeout is ineffective.
++        Atomics.wait(renameRetryWaitBuffer, 0, 0, Math.min(100, 10 * (attempt + 1)));
+         // Attempt again
+         return renameSyncWithRetry(source, target, startTime, retryTimeout, attempt + 1);
+     }

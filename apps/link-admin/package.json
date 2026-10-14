@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "prisma:infer": "prisma contract infer --output ./app/prisma/contract.prisma",
-    "prisma:emit": "node scripts/lowercase-prisma-models.mjs"
+    "prisma:emit": "lowercase-prisma-models"
   },
   "dependencies": {
     "@better-auth-ui/core": "^1.7.27",
@@ -30,11 +30,11 @@
     "pg": "^8.23.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "shadcn": "^4.21.4",
     "sonner": "^2.0.8"
   },
   "devDependencies": {
     "@prisma/cli-engine": "0.7.0",
+    "@repo/scripts": "workspace:*",
     "@repo/vite-config": "workspace:*",
     "@tailwindcss/turbopack": "^4.3.3",
     "@types/node": "^20.19.43",
@@ -43,6 +43,7 @@
     "@types/react-dom": "^19.3.0",
     "babel-plugin-react-compiler": "1.0.0",
     "oxfmt": "^0.72.0",
+    "oxlint": "^1.87.0",
     "prisma": "8.0.0-rc.22",
     "tailwindcss": "^4.3.3"
   },

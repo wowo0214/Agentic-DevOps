@@ -12,3 +12,5 @@ allowBuilds:
 
 overrides:
   typescript: "^7.0.2"
+patchedDependencies:
+  next@16.4.0: patches/next@16.4.0.patch

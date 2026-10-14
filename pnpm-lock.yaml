@@ -165,6 +165,9 @@ settings:
 overrides:
   typescript: ^7.0.2
 
+patchedDependencies:
+  next@16.4.0: 66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a
+
 importers:
 
   .:
@@ -460,10 +463,10 @@ importers:
     dependencies:
       '@better-auth-ui/core':
         specifier: ^1.7.27
-        version: 1.7.27(@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a)))(@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5)))(@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5))(@mikkelscheike/email-provider-links@6.0.2)(@tanstack/query-core@5.104.1)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))
+        version: 1.7.27(@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)))(@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5)))(@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5))(@mikkelscheike/email-provider-links@6.0.2)(@tanstack/query-core@5.104.1)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))
       '@better-auth-ui/react':
         specifier: ^1.7.27
-        version: 1.7.27(f346d9651cd4c1775cd123446f4b6164)
+        version: 1.7.27(33d2b6b878938b372ad37be56f44273d)
       '@prisma/client':
         specifier: ^7.10.0
         version: 7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2)
@@ -481,7 +484,7 @@ importers:
         version: 5.104.1(react@19.3.0)
       better-auth:
         specifier: ^1.7.7
-        version: 1.7.7(75595d3a16431ed06ba6a80ac009e32a)
+        version: 1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)
       bowser:
         specifier: ^2.14.1
         version: 2.14.1
@@ -505,7 +508,7 @@ importers:
         version: 1.54.0(@types/react@19.3.0)(react@19.3.0)
       next:
         specifier: 16.4.0
-        version: 16.4.0(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        version: 16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -518,9 +521,6 @@ importers:
       react-dom:
         specifier: 19.3.0
         version: 19.3.0(react@19.3.0)
-      shadcn:
-        specifier: ^4.21.4
-        version: 4.21.4(supports-color@7.2.0)
       sonner:
         specifier: ^2.0.8
         version: 2.0.8(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -528,6 +528,9 @@ importers:
       '@prisma/cli-engine':
         specifier: 0.7.0
         version: 0.7.0(@prisma/management-api-sdk@1.80.0)(magicast@0.5.5)
+      '@repo/scripts':
+        specifier: workspace:*
+        version: link:../../packages/scripts
       '@repo/vite-config':
         specifier: workspace:*
         version: link:../../packages/config-vite
@@ -552,6 +555,9 @@ importers:
       oxfmt:
         specifier: ^0.72.0
         version: 0.72.0
+      oxlint:
+        specifier: ^1.87.0
+        version: 1.87.0(oxlint-tsgolint@7.0.2003)
       prisma:
         specifier: 8.0.0-rc.22
         version: 8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3)
@@ -643,6 +649,8 @@ importers:
         specifier: ^7.0.2
         version: 7.0.2
 
+  packages/scripts: {}
+
   packages/ui:
     dependencies:
       '@base-ui/react':
@@ -650,10 +658,10 @@ importers:
         version: 1.9.0(@date-fns/tz@1.5.0)(@types/react@19.2.18)(date-fns@4.4.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@better-auth-ui/core':
         specifier: ^1.7.27
-        version: 1.7.27(f34471f93a93ec40c888542f43b10575)
+        version: 1.7.27(598e8e62c2365a458ee4049c5927066f)
       '@better-auth-ui/react':
         specifier: ^1.7.27
-        version: 1.7.27(6764e23a3f509e21b1656c5a4eb922a6)
+        version: 1.7.27(d8e4ce9a8f96b358363ba6facedc028a)
       '@phosphor-icons/react':
         specifier: ^2.1.10
         version: 2.1.10(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -674,7 +682,7 @@ importers:
         version: 19.2.7(@types/react@19.2.18)
       better-auth:
         specifier: ^1.7.7
-        version: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
+        version: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
       bowser:
         specifier: ^2.14.1
         version: 2.14.1
@@ -11262,54 +11270,38 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@better-auth-ui/core@1.7.27(@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a)))(@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5)))(@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5))(@mikkelscheike/email-provider-links@6.0.2)(@tanstack/query-core@5.104.1)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))':
+  '@better-auth-ui/core@1.7.27(598e8e62c2365a458ee4049c5927066f)':
     dependencies:
-      '@better-auth/agent-auth': 0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))
+      '@better-auth/agent-auth': 0.6.2(5905ecb0bd4817c792b02bf6b2a29ab0)
       '@mikkelscheike/email-provider-links': 6.0.2
       '@tanstack/query-core': 5.104.1
-      better-auth: 1.7.7(75595d3a16431ed06ba6a80ac009e32a)
+      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
       libphonenumber-js: 1.13.15
       uqr: 0.1.3
     optionalDependencies:
-      '@better-auth/api-key': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))
-      '@better-auth/passkey': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5)
+      '@better-auth/api-key': 1.7.7(7aa655cfc56c9da10d3145a62eea3c9f)
+      '@better-auth/passkey': 1.7.7(14fef4de75f01e773706d74ccb3b783f)
 
-  '@better-auth-ui/core@1.7.27(f34471f93a93ec40c888542f43b10575)':
+  '@better-auth-ui/core@1.7.27(@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)))(@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5)))(@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5))(@mikkelscheike/email-provider-links@6.0.2)(@tanstack/query-core@5.104.1)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))':
     dependencies:
-      '@better-auth/agent-auth': 0.6.2(3b463d3738d3493ef11936a8c3c5ffab)
+      '@better-auth/agent-auth': 0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))
       '@mikkelscheike/email-provider-links': 6.0.2
       '@tanstack/query-core': 5.104.1
-      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
+      better-auth: 1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)
       libphonenumber-js: 1.13.15
       uqr: 0.1.3
     optionalDependencies:
-      '@better-auth/api-key': 1.7.7(ba1d7da593a517d57a1f45e1d166c1f4)
-      '@better-auth/passkey': 1.7.7(d290650853646ae23f1f0bb811b75459)
+      '@better-auth/api-key': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))
+      '@better-auth/passkey': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5)
 
-  '@better-auth-ui/react@1.7.27(6764e23a3f509e21b1656c5a4eb922a6)':
+  '@better-auth-ui/react@1.7.27(33d2b6b878938b372ad37be56f44273d)':
     dependencies:
-      '@better-auth-ui/core': 1.7.27(f34471f93a93ec40c888542f43b10575)
-      '@better-auth/api-key': 1.7.7(ba1d7da593a517d57a1f45e1d166c1f4)
-      '@better-auth/passkey': 1.7.7(d290650853646ae23f1f0bb811b75459)
-      '@tanstack/query-core': 5.104.1
-      '@tanstack/react-query': 5.104.1(react@19.2.8)
-      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
-      cn: 0.4.0
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
-      tailwindcss: 4.3.3
-      zod: 4.6.5
-    optionalDependencies:
-      react-email: 6.11.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(supports-color@8.1.1)
-
-  '@better-auth-ui/react@1.7.27(f346d9651cd4c1775cd123446f4b6164)':
-    dependencies:
-      '@better-auth-ui/core': 1.7.27(@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a)))(@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5)))(@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5))(@mikkelscheike/email-provider-links@6.0.2)(@tanstack/query-core@5.104.1)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))
-      '@better-auth/api-key': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))
-      '@better-auth/passkey': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5)
+      '@better-auth-ui/core': 1.7.27(@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)))(@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5)))(@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5))(@mikkelscheike/email-provider-links@6.0.2)(@tanstack/query-core@5.104.1)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))
+      '@better-auth/api-key': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))
+      '@better-auth/passkey': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5)
       '@tanstack/query-core': 5.104.1
       '@tanstack/react-query': 5.104.1(react@19.3.0)
-      better-auth: 1.7.7(75595d3a16431ed06ba6a80ac009e32a)
+      better-auth: 1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)
       cn: 0.4.0
       react: 19.3.0
       react-dom: 19.3.0(react@19.3.0)
@@ -11318,37 +11310,53 @@ snapshots:
     optionalDependencies:
       react-email: 6.11.1(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(supports-color@7.2.0)
 
-  '@better-auth/agent-auth@0.6.2(3b463d3738d3493ef11936a8c3c5ffab)':
+  '@better-auth-ui/react@1.7.27(d8e4ce9a8f96b358363ba6facedc028a)':
+    dependencies:
+      '@better-auth-ui/core': 1.7.27(598e8e62c2365a458ee4049c5927066f)
+      '@better-auth/api-key': 1.7.7(7aa655cfc56c9da10d3145a62eea3c9f)
+      '@better-auth/passkey': 1.7.7(14fef4de75f01e773706d74ccb3b783f)
+      '@tanstack/query-core': 5.104.1
+      '@tanstack/react-query': 5.104.1(react@19.2.8)
+      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
+      cn: 0.4.0
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+      tailwindcss: 4.3.3
+      zod: 4.6.5
+    optionalDependencies:
+      react-email: 6.11.1(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(supports-color@8.1.1)
+
+  '@better-auth/agent-auth@0.6.2(5905ecb0bd4817c792b02bf6b2a29ab0)':
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@simplewebauthn/server': 13.3.3
-      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
+      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
       better-call: 1.3.2(zod@4.6.5)
       jose: 6.2.12
       zod: 4.6.5
 
-  '@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))':
+  '@better-auth/agent-auth@0.6.2(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))':
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@simplewebauthn/server': 13.3.3
-      better-auth: 1.7.7(75595d3a16431ed06ba6a80ac009e32a)
+      better-auth: 1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)
       better-call: 1.3.2(zod@4.6.5)
       jose: 6.2.12
       zod: 4.6.5
 
-  '@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))':
+  '@better-auth/api-key@1.7.7(7aa655cfc56c9da10d3145a62eea3c9f)':
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@better-auth/utils': 0.4.2
-      better-auth: 1.7.7(75595d3a16431ed06ba6a80ac009e32a)
+      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
       better-call: 1.4.0(zod@4.6.5)
       zod: 4.6.5
 
-  '@better-auth/api-key@1.7.7(ba1d7da593a517d57a1f45e1d166c1f4)':
+  '@better-auth/api-key@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))':
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@better-auth/utils': 0.4.2
-      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
+      better-auth: 1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)
       better-call: 1.4.0(zod@4.6.5)
       zod: 4.6.5
 
@@ -11386,26 +11394,26 @@ snapshots:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@better-auth/utils': 0.4.2
 
-  '@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5)':
+  '@better-auth/passkey@1.7.7(14fef4de75f01e773706d74ccb3b783f)':
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@better-auth/utils': 0.4.2
       '@better-fetch/fetch': 1.3.2
       '@simplewebauthn/browser': 13.3.0
       '@simplewebauthn/server': 13.3.3
-      better-auth: 1.7.7(75595d3a16431ed06ba6a80ac009e32a)
+      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
       better-call: 1.4.0(zod@4.6.5)
       nanostores: 1.5.5
       zod: 4.6.5
 
-  '@better-auth/passkey@1.7.7(d290650853646ae23f1f0bb811b75459)':
+  '@better-auth/passkey@1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7))(better-call@1.4.0(zod@4.6.5))(nanostores@1.5.5)':
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@better-auth/utils': 0.4.2
       '@better-fetch/fetch': 1.3.2
       '@simplewebauthn/browser': 13.3.0
       '@simplewebauthn/server': 13.3.3
-      better-auth: 1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))
+      better-auth: 1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7)
       better-call: 1.4.0(zod@4.6.5)
       nanostores: 1.5.5
       zod: 4.6.5
@@ -15362,7 +15370,7 @@ snapshots:
 
   before-after-hook@4.0.0: {}
 
-  better-auth@1.7.7(75595d3a16431ed06ba6a80ac009e32a):
+  better-auth@1.7.7(5da9ebd65e958cfd8c90d25ab1077ae7):
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@better-auth/drizzle-adapter': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)
@@ -15383,7 +15391,7 @@ snapshots:
       zod: 4.6.5
     optionalDependencies:
       '@prisma/client': 7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2)
-      next: 16.4.0(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+      next: 16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       pg: 8.23.1
       prisma: 8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3)
       react: 19.3.0
@@ -15392,7 +15400,7 @@ snapshots:
     transitivePeerDependencies:
       - '@opentelemetry/api'
 
-  better-auth@1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))):
+  better-auth@1.7.7(@prisma/client@7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2))(next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(pg@8.23.1)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(vitest@5.0.3(@types/node@26.4.1)(jsdom@30.1.2(@noble/hashes@2.4.0))(vite@8.2.2(@types/node@26.4.1)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))):
     dependencies:
       '@better-auth/core': 1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5)
       '@better-auth/drizzle-adapter': 1.7.7(@better-auth/core@1.7.7(@better-auth/utils@0.4.2)(@better-fetch/fetch@1.3.2)(better-call@1.4.0(zod@4.6.5))(jose@6.2.12)(kysely@0.29.6)(nanostores@1.5.5))(@better-auth/utils@0.4.2)
@@ -15413,7 +15421,7 @@ snapshots:
       zod: 4.6.5
     optionalDependencies:
       '@prisma/client': 7.10.0(prisma@8.0.0-rc.22(@types/node@20.19.43)(@types/react@19.3.0)(@vercel/nft@1.11.0(rollup@4.63.1)(supports-color@7.2.0))(magicast@0.5.5)(pg@8.23.1)(rollup@4.63.1)(supports-color@7.2.0)(typanion@3.14.0)(typescript@7.0.2)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1))(vitest@5.0.3(@types/node@20.19.43)(jsdom@30.1.2(@noble/hashes@1.8.0))(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.13)(yaml@2.9.1)))(ws@8.21.3))(typescript@7.0.2)
-      next: 16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      next: 16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       pg: 8.23.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -19309,7 +19317,7 @@ snapshots:
       - '@types/node'
       - babel-plugin-macros
 
-  next@16.4.0(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
+  next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@babel/core@7.29.7(supports-color@7.2.0))(@types/node@20.19.43)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0):
     dependencies:
       '@next/env': 16.4.0
       '@swc/helpers': 0.5.23
@@ -19335,7 +19343,7 @@ snapshots:
       - '@types/node'
       - babel-plugin-macros
 
-  next@16.4.0(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+  next@16.4.0(patch_hash=66a8a8ec4f08287a50ca7c49a7732feb6e054ebf9eed3b7fb94ce27ab5ce4e8a)(@types/node@26.4.1)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
       '@next/env': 16.4.0
       '@swc/helpers': 0.5.23

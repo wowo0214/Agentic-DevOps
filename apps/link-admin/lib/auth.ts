@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { genericOAuth, slack } from "better-auth/plugins";
 import { Pool } from "pg";
 export const auth = betterAuth({
   database: new Pool({
@@ -17,4 +18,14 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     },
   },
+  plugins: [
+    genericOAuth({
+      config: [
+        slack({
+          clientId: process.env.SLACK_CLIENT_ID as string,
+          clientSecret: process.env.SLACK_CLIENT_SECRET as string,
+        }),
+      ],
+    }),
+  ],
 });

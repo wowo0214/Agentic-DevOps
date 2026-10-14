@@ -1,30 +1,37 @@
-"use client"
+'use client'
 
-import { QueryClientProvider } from "@tanstack/react-query"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { ThemeProvider, useTheme } from "next-themes"
-import type { ReactNode } from "react"
-
-import { AuthProvider, themePlugin } from "@repo/ui/auth"
-import { Toaster } from "@repo/ui/sonner"
-import { authClient } from "@/lib/auth-client"
-import { getQueryClient } from "@/lib/query-client"
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ThemeProvider, useTheme } from 'next-themes'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { authClient } from '@/lib/auth-client'
+import { getQueryClient } from '@/lib/query-client'
+import { AuthProvider, themePlugin } from '@repo/ui/auth'
+import { Toaster } from '@repo/ui/sonner'
+import type { Route } from 'next'
+import type { ComponentProps, ReactNode } from 'react'
 
 export function Providers({ children }: { children: ReactNode }) {
   const router = useRouter()
-
+  // 'wechat', 'apple'
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
       <QueryClientProvider client={getQueryClient()}>
         <AuthProvider
           authClient={authClient}
           redirectTo="/dashboard"
-          socialProviders={["google", "github"]}
+          socialProviders={['google', 'github', 'slack']}
           emailAndPassword={{ requireEmailVerification: false }}
-          navigate={({ to, replace }) => replace ? router.replace(to) : router.push(to)}
+          navigate={({ to, replace }) =>
+            replace ? router.replace(to as Route) : router.push(to as Route)
+          }
           plugins={[themePlugin({ useTheme })]}
-          Link={Link}
+          Link={Link as ComponentProps<typeof AuthProvider>['Link']}
         >
           {children}
           <Toaster />
