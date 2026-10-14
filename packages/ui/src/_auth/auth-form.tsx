@@ -299,9 +299,7 @@ function AuthFormAdditionalField(props: AuthFormAdditionalFieldProps) {
 }
 
 export const {
-  useAppForm: useAuthForm,
-  withFieldGroup: withAuthFieldGroup,
-  withForm: withAuthForm
+  useAppForm: useAuthForm
 } = createFormHook({
   fieldComponents: {
     AuthFormAdditionalField,

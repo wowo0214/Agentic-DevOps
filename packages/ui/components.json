@@ -16,7 +16,7 @@
     "components": "@repo/ui",
     "utils": "cn",
     "ui": "@repo/ui",
-    "lib": "@repo/ui/lib",
+    "lib": "@repo/ui/_lib",
     "hooks": "@repo/ui/hooks"
   },
   "menuColor": "inverted-translucent",
