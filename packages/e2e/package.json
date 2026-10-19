@@ -1,0 +1,17 @@
+{
+  "name": "@repo/e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:agent": "node scripts/run-agent.ts",
+    "test:agent:all": "node scripts/run-agent.ts all",
+    "test:agent:list": "node scripts/run-agent.ts all --list"
+  },
+  "devDependencies": {
+    "@ai-sdk/deepseek": "3.0.66",
+    "@e2e-dev/web": "0.15.1",
+    "@types/node": "26.4.1",
+    "ai": "7.0.142",
+    "e2e": "0.21.1"
+  }
+}

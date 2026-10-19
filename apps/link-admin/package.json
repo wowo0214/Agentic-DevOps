@@ -6,6 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test:agent": "pnpm -F @repo/e2e test:agent link-admin --headed --no-cache",
+    "test:agent:file": "pnpm -F @repo/e2e test:agent link-admin --headed",
+    "test:agent:name": "pnpm -F @repo/e2e test:agent link-admin --headed  --grep",
     "prisma:infer": "prisma contract infer --output ./app/prisma/contract.prisma",
     "prisma:emit": "lowercase-prisma-models"
   },
