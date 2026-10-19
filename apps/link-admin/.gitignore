@@ -44,5 +44,5 @@ node_modules/
 dist/
 .env
 
-# skill
-.agents/
+# other
+sidebar-examples

@@ -1,5 +1,4 @@
-import type { NextConfig } from "next";
-
+import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   /* config options here */
   agentRules: true,
@@ -7,14 +6,25 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
   typedRoutes: true,
+  // basePath: '/admin',
+  // 307 Relocation
+  redirects() {
+    return [
+      // {
+      //   source: "/",
+      //   destination: "/auth/sign-in",
+      //   permanent: false,
+      // },
+    ]
+  },
   turbopack: {
     rules: {
-      "*.css": {
-        loaders: ["@tailwindcss/turbopack"],
-        as: "*.css",
+      '*.css': {
+        loaders: ['@tailwindcss/turbopack'],
+        as: '*.css',
       },
     },
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

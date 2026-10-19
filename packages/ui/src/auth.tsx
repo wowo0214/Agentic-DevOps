@@ -1,3 +1,3 @@
-"use client"
+"use client";
 
-export * from "./_auth"
+export * from "./auth/index";

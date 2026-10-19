@@ -2,6 +2,7 @@
 .DS_Store
 node_modules
 .vscode
+.zed
 .turbo
 *.log
 .next
@@ -15,3 +16,6 @@ public/dist
 
 # Internal Group Project Plans 
 plans
+
+# skill
+.agents/

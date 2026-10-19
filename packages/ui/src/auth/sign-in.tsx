@@ -309,7 +309,6 @@ export function SignIn({
                   <div className="flex flex-col gap-3">
                     <form.AuthFormSubmitButton
                       isPending={signInEmailPending}
-                      className="relative overflow-visible bg-[#171717] text-white hover:bg-[#171717]/90"
                       disabled={isPending}
                     >
                       {localization.auth.signIn}

@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { genericOAuth, slack } from "better-auth/plugins";
+import { genericOAuth, slack, anonymous } from "better-auth/plugins";
 import { Pool } from "pg";
 export const auth = betterAuth({
   database: new Pool({
@@ -19,6 +19,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    anonymous(),
     genericOAuth({
       config: [
         slack({

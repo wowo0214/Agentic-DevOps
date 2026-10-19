@@ -14,7 +14,7 @@ export default function AuthPage({
     <Suspense
       fallback={
         <main
-          className="my-auto flex justify-center p-4 md:p-6"
+          className="flex min-h-svh w-full items-center justify-center p-4 md:p-6"
           aria-busy="true"
         />
       }
@@ -33,7 +33,7 @@ async function AuthPageContent({
   if (!validAuthPaths.has(path)) notFound()
 
   return (
-    <main className="my-auto flex justify-center p-4 md:p-6">
+    <main className="flex min-h-svh w-full items-center justify-center p-4 md:p-6">
       <Auth path={path} />
     </main>
   )
