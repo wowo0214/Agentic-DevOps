@@ -1,4 +1,5 @@
 import { db } from '@/app/prisma/db'
+import { R } from '@repo/http-contract'
 import type { NextRequest } from 'next/server'
 // 同一个 /api/crud 地址，根据请求的 HTTP 方法执行下面对应的函数。
 // 以下 fetch 示例在当前应用页面的浏览器开发者工具 Console 中执行。
@@ -46,17 +47,24 @@ export async function PUT(request: Request) {
   return Response.json({ method: 'PUT', id, replacement: body })
 }
 
-// PATCH：演示局部修改，只传入需要修改的字段。
-// 触发方式：
-// await fetch('/api/crud?id=123', {
-//   method: 'PATCH',
-//   headers: { 'Content-Type': 'application/json' },
-//   body: JSON.stringify({ name: '王五' }),
-// }).then(res => res.json())
-export async function PATCH(request: Request) {
-  const id = new URL(request.url).searchParams.get('id')
-  const changes = await request.json()
-  return Response.json({ method: 'PATCH', id, changes })
+// PATCH：局部修改，只传入需要修改的字段
+export async function PATCH() {
+  try {
+    const user = await db.orm.public.user
+      .where((u) => u.email.eq('admin1@next.com'))
+      .select('id', 'name', 'role')
+      .update({ role: 'admin' })
+
+    if (!user) {
+      return R.error('用户不存在', 404)
+    }
+    return R.ok(user, '更新成功')
+  } catch (error) {
+    // 查询或更新过程中抛出异常
+    console.error(error)
+
+    return R.error('更新用户角色失败')
+  }
 }
 
 // DELETE：演示接收要删除的用户 id，并返回它，方便观察请求结果。

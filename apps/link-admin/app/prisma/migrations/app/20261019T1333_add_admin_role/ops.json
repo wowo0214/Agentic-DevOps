@@ -1,0 +1,254 @@
+[
+  {
+    "id": "column.public.session.impersonatedBy",
+    "label": "Add column \"impersonatedBy\" to \"session\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "impersonatedBy",
+        "table": "session"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"impersonatedBy\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "session",
+          "impersonatedBy"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"impersonatedBy\"",
+        "sql": "ALTER TABLE \"public\".\"session\" ADD COLUMN \"impersonatedBy\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"impersonatedBy\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "session",
+          "impersonatedBy"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.banExpires",
+    "label": "Add column \"banExpires\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "banExpires",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"banExpires\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "banExpires"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"banExpires\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"banExpires\" timestamptz"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"banExpires\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "banExpires"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.banReason",
+    "label": "Add column \"banReason\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "banReason",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"banReason\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "banReason"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"banReason\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"banReason\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"banReason\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "banReason"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.banned",
+    "label": "Add column \"banned\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "banned",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"banned\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "banned"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"banned\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"banned\" bool DEFAULT false"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"banned\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "banned"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.isAnonymous",
+    "label": "Add column \"isAnonymous\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "isAnonymous",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"isAnonymous\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "isAnonymous"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"isAnonymous\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"isAnonymous\" bool"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"isAnonymous\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "isAnonymous"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.role",
+    "label": "Add column \"role\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "role",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"role\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "role"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"role\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"role\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"role\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "role"
+        ]
+      }
+    ]
+  }
+]

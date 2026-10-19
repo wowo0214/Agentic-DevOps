@@ -21,6 +21,20 @@ export function createAgentConfig(appId: AppId): E2EConfig {
         maxModelCalls: 8,
       },
     },
+    credentials: {
+      admin: {
+        username: "admin@next.com",
+        password: () => {
+          const password = process.env.E2E_USER_ADMIN_PASSWORD;
+          if (!password) {
+            throw new Error(
+              "Missing required environment variable: E2E_USER_ADMIN_PASSWORD",
+            );
+          }
+          return password;
+        },
+      },
+    },
     tests: [`__tests__/${appId}/agent/**/*.e2e.ts`],
     workers: 1,
     retries: 0,

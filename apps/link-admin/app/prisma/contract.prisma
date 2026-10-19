@@ -1,14 +1,20 @@
 // use prisma-8
 // Contract inferred from the live database schema. Edit as needed, then run `prisma contract emit`.
+
 model User {
-  id            String            @id(map: "user_pkey")
+  id            String             @id(map: "user_pkey")
   name          String
-  email         String            @unique(map: "user_email_key")
+  email         String             @unique(map: "user_email_key")
   emailVerified Boolean
-  phone         String?
   image         String?
-  createdAt     TimestamptzString @default(now())
-  updatedAt     TimestamptzString @default(now())
+  createdAt     TimestamptzString  @default(now())
+  updatedAt     TimestamptzString  @default(now())
+  phone         String?
+  isAnonymous   Boolean?
+  role          String?
+  banned        Boolean?           @default(false)
+  banReason     String?
+  banExpires    TimestamptzString?
   accounts      Account[]
   sessions      Session[]
 
@@ -49,15 +55,16 @@ model PrismaMigrations {
 }
 
 model Session {
-  id        String            @id(map: "session_pkey")
-  expiresAt TimestamptzString
-  token     String            @unique(map: "session_token_key")
-  createdAt TimestamptzString @default(now())
-  updatedAt TimestamptzString
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_userId_fkey")
+  id             String            @id(map: "session_pkey")
+  expiresAt      TimestamptzString
+  token          String            @unique(map: "session_token_key")
+  createdAt      TimestamptzString @default(now())
+  updatedAt      TimestamptzString
+  ipAddress      String?
+  userAgent      String?
+  userId         String
+  impersonatedBy String?
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade, map: "session_userId_fkey")
 
   @@index([userId], map: "session_userId_idx")
   @@map("session")

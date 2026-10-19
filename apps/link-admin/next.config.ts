@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
   typedRoutes: true,
+  allowedDevOrigins: ['127.0.0.1'],
   // basePath: '/admin',
   // 307 Relocation
   redirects() {

@@ -310,6 +310,13 @@
                   "kind": "scalar"
                 }
               },
+              "impersonatedBy": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "ipAddress": {
                 "nullable": true,
                 "type": {
@@ -375,6 +382,9 @@
                 "id": {
                   "column": "id"
                 },
+                "impersonatedBy": {
+                  "column": "impersonatedBy"
+                },
                 "ipAddress": {
                   "column": "ipAddress"
                 },
@@ -397,6 +407,27 @@
           },
           "user": {
             "fields": {
+              "banExpires": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "banReason": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "banned": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
               "createdAt": {
                 "nullable": false,
                 "type": {
@@ -432,6 +463,13 @@
                   "kind": "scalar"
                 }
               },
+              "isAnonymous": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
               "name": {
                 "nullable": false,
                 "type": {
@@ -440,6 +478,13 @@
                 }
               },
               "phone": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "role": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -488,6 +533,15 @@
             },
             "storage": {
               "fields": {
+                "banExpires": {
+                  "column": "banExpires"
+                },
+                "banReason": {
+                  "column": "banReason"
+                },
+                "banned": {
+                  "column": "banned"
+                },
                 "createdAt": {
                   "column": "createdAt"
                 },
@@ -503,11 +557,17 @@
                 "image": {
                   "column": "image"
                 },
+                "isAnonymous": {
+                  "column": "isAnonymous"
+                },
                 "name": {
                   "column": "name"
                 },
                 "phone": {
                   "column": "phone"
+                },
+                "role": {
+                  "column": "role"
                 },
                 "updatedAt": {
                   "column": "updatedAt"
@@ -800,6 +860,11 @@
                   "dataType": "pg/text",
                   "nullable": false
                 },
+                "impersonatedBy": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
                 "ipAddress": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
@@ -875,6 +940,25 @@
             },
             "user": {
               "columns": {
+                "banExpires": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "dataType": "pg/timestamptz",
+                  "nullable": true
+                },
+                "banReason": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "banned": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nullable": true
+                },
                 "createdAt": {
                   "codecId": "pg/timestamptz-string@1",
                   "dataType": "pg/timestamptz",
@@ -904,12 +988,22 @@
                   "dataType": "pg/text",
                   "nullable": true
                 },
+                "isAnonymous": {
+                  "codecId": "pg/bool@1",
+                  "dataType": "pg/bool",
+                  "nullable": true
+                },
                 "name": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": false
                 },
                 "phone": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "role": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
                   "nullable": true
@@ -1006,7 +1100,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "31e9f1d26e4870e28623187d33d5bf3b513f539a6696c1c6a44ae895ccd8e3dd"
+    "storageHash": "673d7cf63d206d2045493b2aab127d48eccc3aa3829840f7c8f8c037fa4333e9"
   },
   "capabilities": {
     "postgres": {

@@ -1,6 +1,7 @@
-import { betterAuth } from "better-auth";
-import { genericOAuth, slack, anonymous } from "better-auth/plugins";
-import { Pool } from "pg";
+import { betterAuth } from 'better-auth'
+import { genericOAuth, slack, anonymous } from 'better-auth/plugins'
+import { admin } from 'better-auth/plugins/admin'
+import { Pool } from 'pg'
 export const auth = betterAuth({
   database: new Pool({
     connectionString: process.env.DATABASE_URL,
@@ -19,6 +20,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
+    admin(),
     anonymous(),
     genericOAuth({
       config: [
@@ -29,4 +31,4 @@ export const auth = betterAuth({
       ],
     }),
   ],
-});
+})
