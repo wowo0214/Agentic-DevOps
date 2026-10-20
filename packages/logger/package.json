@@ -36,6 +36,6 @@
     "bunchee": "7.0.1",
     "eslint": "10.9.1",
     "jest": "30.5.1",
-    "typescript": "npm:@typescript/typescript6@6.0.2"
+    "typescript": "catalog:"
   }
 }

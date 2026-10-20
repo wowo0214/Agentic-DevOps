@@ -1,3 +1,4 @@
 [install]
+# Link dependencies inside each package installation
 linker = "isolated"
 peer = true
