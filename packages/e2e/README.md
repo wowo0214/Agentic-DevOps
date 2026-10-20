@@ -18,7 +18,7 @@ __tests__/link-admin/agent/
 
 ## 环境
 
-支持原生 Windows；WSL 可选。使用仓库要求的 Node.js 24.20+、pnpm 12.10.1，不要跨操作系统共享 node_modules。
+支持原生 Windows；WSL 可选。依赖统一由 Bun 管理；`e2e` CLI 暂不支持 Bun runtime，因此测试脚本通过 Vite+ 使用仓库要求的 Node.js 24.20+。不要跨操作系统共享 `node_modules`。
 
 在 `.env.local` 中填写密钥和 `LINK_ADMIN_E2E_URL`。登录账号默认使用 `admin@next.com`，密码通过 `E2E_USER_ADMIN_PASSWORD` 设置；可用 `E2E_USER_ADMIN_USERNAME` 覆盖邮箱。密码由测试框架的 credentials 机制填入和脱敏，不要写入测试源码或 Agent 指令。应用脚本通过 `run-agent.ts` 设置 `E2E_APP=link-admin`，只发现该应用命名空间内的测试。
 
@@ -36,42 +36,45 @@ Vitest 单元与集成测试保留在所属模块，通过支持该框架的编�
 
 ```sh
 # 只发现测试，不打开浏览器、不调用模型
-pnpm --filter @repo/e2e test:agent:list
+bun run --filter @repo/e2e test:agent:list
 
 # 中央选择一个应用
-pnpm --filter @repo/e2e test:agent link-admin --headed --no-cache
+bun run --filter @repo/e2e test:agent link-admin --headed --no-cache
 
 # 中央批量执行所有已注册应用，目前只有 link-admin
-pnpm --filter @repo/e2e test:agent:all
+bun run --filter @repo/e2e test:agent:all
 
 # 由应用 package.json 约束测试范围
-pnpm --filter link-admin test:agent:headed
-
-# 安装 Agent Web 引擎使用的 Chromium
-pnpm --filter @repo/e2e exec e2e-web install chromium
+bun run --filter link-admin test:agent
 ```
 
-在 `apps/link-admin` 中：
+在 `packages/e2e` 中安装 Agent Web 引擎使用的 Chromium：
+
+```sh
+vpx e2e-web install chromium
+```
+
+在 `apps/admin` 中：
 
 ```sh
 # 全部 Agent 测试，有界面，关闭动作重放
-pnpm test:agent:headed
+vpr test:agent
 
 # 按文件筛选（有同名文件时用相对于 packages/e2e 的路径）
-pnpm test:agent:file guest-auth.e2e.ts --headed --no-cache
+vpr test:agent:file guest-auth.e2e.ts --headed --no-cache
 
 # 按测试标题正则筛选
-pnpm test:agent:name "管理员可以使用邮箱密码登录并退出" --headed --no-cache
+vpr test:agent:name "管理员可以使用邮箱密码登录并退出" --headed --no-cache
 
 # 按 describe 标题筛选其下的用例
-pnpm test:agent:name "账号认证" --headed --no-cache
+vpr test:agent:name "账号认证" --headed --no-cache
 
 # 同时限定文件和标题
-pnpm test:agent:file guest-auth.e2e.ts --grep "管理员" --headed --no-cache
+vpr test:agent:file guest-auth.e2e.ts --grep "管理员" --headed --no-cache
 
 # 只验证匹配结果，不打开浏览器、不调用模型
-pnpm test:agent:file guest-auth.e2e.ts --list
-pnpm test:agent:name "管理员" --list
+vpr test:agent:file guest-auth.e2e.ts --list
+vpr test:agent:name "管理员" --list
 ```
 
 `test:agent:file` 使用原生文件筛选，请传入文件名；省略文件参数会运行应用的全部测试。`test:agent:name` 使用原生 `--grep`，必须传入正则表达式；匹配的是 describe 层级和测试标题拼接后的完整名称，可匹配 test/it 用例或一组 describe。`^...$` 可用于完整名称匹配，不匹配源码函数名。

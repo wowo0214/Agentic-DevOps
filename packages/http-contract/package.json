@@ -22,9 +22,9 @@
     }
   },
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
-    "check-types": "tsc --noEmit"
+    "build": "bun --bun tsdown",
+    "dev": "bun --bun tsdown --watch",
+    "check-types": "bun --bun tsc --noEmit"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

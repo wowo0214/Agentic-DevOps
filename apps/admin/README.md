@@ -2,16 +2,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+From `apps/admin`, run the development server with the team's Vite+ script runner:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+vpr dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -26,10 +20,10 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ### 数据库迁移
 
-部署新配置前，先备份数据库。在本应用目录 `apps/link-admin` 中，确保 `DATABASE_URL` 指向预期数据库，然后运行 Better Auth CLI 的迁移命令，检查并确认变更：
+部署新配置前，先备份数据库。在本应用目录 `apps/admin` 中，确保 `DATABASE_URL` 指向预期数据库，然后通过 Vite+ 包执行器运行 Better Auth CLI 的迁移命令，检查并确认变更：
 
 ```bash
-pnpm dlx auth migrate
+vpx auth migrate
 ```
 
 Admin 插件需要为 `user` 表增加 `role`、`banned`、`banReason`、`banExpires` 字段，为 `session` 表增加 `impersonatedBy` 字段。仅修改认证配置不会自动更新数据库。

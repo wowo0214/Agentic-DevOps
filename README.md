@@ -9,7 +9,7 @@ This example also shows how to use [Workspace Configurations](https://turborepo.
 Run the following command:
 
 ```sh
-npx create-turbo@latest -e kitchen-sink
+vpx create-turbo@latest -e kitchen-sink
 ```
 
 ## What's inside?

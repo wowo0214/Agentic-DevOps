@@ -3,11 +3,11 @@
   "version": "0.0.40",
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "start": "next start",
-    "check-types": "next typegen && tsc --noEmit",
-    "types:check": "pnpm run check-types"
+    "build": "bun --bun next build --webpack",
+    "dev": "bun --bun next dev",
+    "start": "bun --bun next start",
+    "check-types": "bun --bun next typegen && bun --bun tsc --noEmit",
+    "types:check": "bun run check-types"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.0",

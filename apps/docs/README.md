@@ -3,14 +3,10 @@
 This is a Next.js application generated with
 [Create Fumadocs](https://github.com/fuma-nama/fumadocs).
 
-Run development server:
+From `apps/docs`, run the development server with the team's Vite+ script runner:
 
 ```bash
-npm run dev
-# or
-pnpm dev
-# or
-yarn dev
+vpr dev
 ```
 
 Open http://localhost:3000 with your browser to see the result.
@@ -26,9 +22,9 @@ Set `SITE_URL` to the site's actual URL in production so social preview images
 resolve against the correct origin. Restart the development server after editing
 environment variables. Keep `.env.local` out of Git.
 
-From the monorepo root, run `pnpm exec turbo run docs#dev` for development,
-`pnpm exec turbo run docs#check-types` for type checking, and
-`pnpm exec turbo run docs#build` for a production build.
+From the monorepo root, run `vpr dev:docs` for development,
+`bun run --filter docs check-types` for type checking, and
+`bun run --filter docs build` for a production build.
 
 ## Explore
 

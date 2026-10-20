@@ -22,11 +22,11 @@
     }
   },
   "scripts": {
-    "build": "bunchee",
-    "dev": "bunchee --watch",
-    "lint": "eslint src/",
-    "check-types": "tsc --noEmit",
-    "test": "jest"
+    "build": "bun --bun bunchee",
+    "dev": "bun --bun bunchee --watch",
+    "lint": "bun --bun eslint src/",
+    "check-types": "bun --bun tsc --noEmit",
+    "test": "bun --bun jest"
   },
   "devDependencies": {
     "@jest/globals": "30.5.1",

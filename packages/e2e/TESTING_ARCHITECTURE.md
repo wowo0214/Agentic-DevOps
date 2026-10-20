@@ -25,7 +25,7 @@
 
 1. 在 `shared/apps.ts` 注册唯一 ID、环境地址与必要的 Agent 上下文。
 2. 创建 `__tests__/<app>/agent/` 并加入测试。
-3. 在应用 package.json 转发 `pnpm --filter @repo/e2e test:agent <app>`。
+3. 在应用 `package.json` 转发 `bun run --filter @repo/e2e test:agent <app>`。
 
 无需新增应用专属 Agent config；中央 `test:agent:all` 自动遍历注册表。各 runner 的 fixture、Page 和认证状态不强制共用。未来存在并行运行需求时，再按 runner/app/run 隔离产物并设置并发上限。
 

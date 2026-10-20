@@ -27,7 +27,7 @@ const base = {
   ignorePatterns: [
     '**/*.md',
     '**/*.json',
-    'pnpm-lock.yaml',
+    'bun.lock',
     '**/node_modules/**',
     '**/dist/**',
     '**/dist-ssr/**',
