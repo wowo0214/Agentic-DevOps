@@ -1,7 +1,10 @@
 import type { NextConfig } from 'next'
+
 const nextConfig: NextConfig = {
   /* config options here */
   agentRules: true,
+  // Bundle pg to avoid Bun resolving Turbopack's generated pg-<hash> externals.
+  transpilePackages: ['pg'],
   cacheComponents: true,
   partialPrefetching: true,
   reactCompiler: true,

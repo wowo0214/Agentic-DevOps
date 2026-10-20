@@ -105,7 +105,7 @@
     },
     "packages/config-vite": {
       "name": "@repo/vite-config",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "peerDependencies": {
         "oxfmt": "^0.72.0",
         "oxlint": "^1.87.0",

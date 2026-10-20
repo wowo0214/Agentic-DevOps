@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun --bun next dev",
-    "build": "bun --bun next build --webpack",
+    "build": "bun --bun next build",
     "start": "bun --bun next start",
     "test:agent": "bun run --filter @repo/e2e test:agent -- link-admin --headed --no-cache",
     "test:agent:file": "bun run --filter @repo/e2e test:agent -- link-admin --headed",
