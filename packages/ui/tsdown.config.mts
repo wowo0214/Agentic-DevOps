@@ -16,11 +16,7 @@ const entries = Object.fromEntries(
 
 export default defineConfig(
   (["esm", "cjs"] as const).map((format): UserConfig => ({
-    entry: {
-      ...entries,
-      "counter-button": "src/counter-button/index.tsx",
-      link: "src/link/index.tsx",
-    },
+    entry: entries,
     format,
     outDir: format === "esm" ? "dist/es" : "dist/cjs",
     outExtensions: () =>

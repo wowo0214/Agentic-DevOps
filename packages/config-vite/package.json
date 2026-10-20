@@ -1,6 +1,6 @@
 {
-  "name": "@ag/vite-config",
-  "version": "0.1.x",
+  "name": "@repo/vite-config",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "license": "MIT",
