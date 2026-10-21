@@ -28,7 +28,10 @@ export function Providers({ children }: { children: ReactNode }) {
           // The url to redirect to successful sign-in
           redirectTo="/"
           socialProviders={['google', 'github', 'slack']}
-          emailAndPassword={{ requireEmailVerification: false }}
+          emailAndPassword={{
+            requireEmailVerification: false,
+            rememberMe: true,
+          }}
           navigate={({ to, replace }) =>
             replace ? router.replace(to as Route) : router.push(to as Route)
           }
