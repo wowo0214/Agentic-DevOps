@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { randomBytes, randomUUID } from "node:crypto";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { appIds, getAppId } from "../shared/apps.ts";
@@ -23,7 +24,13 @@ for (const appId of selected) {
   const code = await new Promise<number>((resolveExit, reject) => {
     const child = spawn(process.execPath, [cli, command, ...forwarded], {
       cwd: packageRoot,
-      env: { ...process.env, E2E_APP: appId },
+      env: {
+        ...process.env,
+        E2E_APP: appId,
+        E2E_USER_REGISTRATION_USERNAME: `delivered+registration-${randomUUID()}@resend.dev`,
+        E2E_USER_REGISTRATION_PASSWORD: `E2e!${randomBytes(24).toString("base64url")}`,
+        E2E_REGISTRATION_STARTED_AT: String(Date.now()),
+      },
       stdio: "inherit",
     });
     const interrupt = () => child.kill("SIGINT");

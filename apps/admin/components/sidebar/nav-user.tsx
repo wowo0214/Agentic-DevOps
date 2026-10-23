@@ -22,7 +22,7 @@ export function NavUser() {
     <SidebarMenu>
       <SidebarMenuItem>
         <UserButton
-          aria-label="用户菜单"
+          aria-label="User menu"
           className={
             isCollapsed
               ? 'flex size-8 items-center justify-center'

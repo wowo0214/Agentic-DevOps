@@ -81,7 +81,7 @@ function SetPassword({ className }: { className?: string }) {
   const { mutate: requestPasswordReset, isPending } = useRequestPasswordReset(
     authClient,
     {
-      onError: () => {
+      onSettled: () => {
         resetFetchOptions()
       },
       onSuccess: (_data, { email }) => {
@@ -139,7 +139,7 @@ function SetPassword({ className }: { className?: string }) {
             </div>
           ) : (
             <div className="flex flex-col gap-3 items-start sm:items-end">
-              {Captcha && <div>{Captcha}</div>}
+              {Captcha}
 
               <Button
                 size="sm"

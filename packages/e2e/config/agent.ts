@@ -2,6 +2,7 @@ import { deepseek } from "@ai-sdk/deepseek";
 import { web } from "@e2e-dev/web";
 import type { E2EConfig } from "e2e";
 import { apps, type AppId } from "../shared/apps.ts";
+import { readRegistrationOtp } from "../shared/resend.ts";
 
 export function createAgentConfig(appId: AppId): E2EConfig {
   const app = apps[appId];
@@ -21,7 +22,22 @@ export function createAgentConfig(appId: AppId): E2EConfig {
         maxModelCalls: 8,
       },
     },
+    secrets: {
+      "registration-otp": readRegistrationOtp,
+      "existing-account-otp": readRegistrationOtp,
+    },
     credentials: {
+      registration: {
+        username: process.env.E2E_USER_REGISTRATION_USERNAME ?? "",
+        password: () => {
+          const password = process.env.E2E_USER_REGISTRATION_PASSWORD;
+          if (!password)
+            throw new Error(
+              "Run registration tests through scripts/run-agent.ts.",
+            );
+          return password;
+        },
+      },
       admin: {
         username: "admin@next.com",
         password: () => {

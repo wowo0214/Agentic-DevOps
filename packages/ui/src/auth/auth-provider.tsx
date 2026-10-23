@@ -1,3 +1,5 @@
+"use client"
+
 import {
   AuthProvider as AuthProviderPrimitive,
   type AuthProviderProps
@@ -10,6 +12,7 @@ import type {
 } from "react"
 
 import { ErrorToaster } from "./error-toaster"
+import { AuthCaptchaBoundary } from "./lib/turnstile-plugin"
 
 declare module "@better-auth-ui/core" {
   interface AuthConfig {
@@ -42,9 +45,11 @@ declare module "@better-auth-ui/core" {
 export function AuthProvider({ children, ...config }: AuthProviderProps) {
   return (
     <AuthProviderPrimitive {...config}>
-      {children}
+      <AuthCaptchaBoundary>
+        {children}
 
-      <ErrorToaster />
+        <ErrorToaster />
+      </AuthCaptchaBoundary>
     </AuthProviderPrimitive>
   )
 }

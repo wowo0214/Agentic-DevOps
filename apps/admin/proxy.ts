@@ -18,5 +18,8 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/dashboard/:path*', '/settings/:path*'],
+  // Match all paths except auth and static assets
+  matcher: [
+    '/((?!api/auth(?:/|$)|auth(?:/|$)|claude(?:/|$)|_next/static|_next/image|favicon.ico).*)',
+  ],
 }

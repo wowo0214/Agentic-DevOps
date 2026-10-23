@@ -50,7 +50,7 @@ export function ForgotPassword({ className }: ForgotPasswordProps) {
 
   const { mutateAsync: requestPasswordReset, isPending } =
     useRequestPasswordReset(authClient, {
-      onError: () => {
+      onSettled: () => {
         resetFetchOptions()
       },
       onSuccess: (_data, { email }) => {
@@ -127,7 +127,7 @@ export function ForgotPassword({ className }: ForgotPasswordProps) {
                 }}
               </form.AppField>
 
-              {Captcha && <div className="flex justify-center">{Captcha}</div>}
+              {Captcha}
 
               <div className="flex flex-col gap-3">
                 <form.AuthFormSubmitButton

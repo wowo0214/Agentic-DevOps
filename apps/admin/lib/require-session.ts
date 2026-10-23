@@ -2,7 +2,7 @@ import { ensureSessionServer } from '@better-auth-ui/core/server'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { connection } from 'next/server'
-import { auth } from '@/lib/auth'
+import { auth } from '@/lib/auth/auth'
 import { getQueryClient } from '@/lib/query-client'
 import 'server-only'
 

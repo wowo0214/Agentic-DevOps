@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import Link from "next/link"
-import { UserButton } from "@repo/ui/auth"
-import { SidebarTrigger } from "@repo/ui/sidebar"
-import { Separator } from "@repo/ui/separator"
+import Link from 'next/link'
+import { UserButton } from '@repo/ui/auth'
+import { Separator } from '@repo/ui/separator'
+import { SidebarTrigger } from '@repo/ui/sidebar'
 
 export function Header() {
   return (
@@ -11,7 +11,9 @@ export function Header() {
       <div className="flex items-center gap-3">
         <SidebarTrigger />
         <Separator orientation="vertical" className="h-4" />
-        <Link href="/" className="font-semibold">工作区</Link>
+        <Link href="/" className="font-semibold">
+          Workspace
+        </Link>
       </div>
       <nav className="flex items-center gap-4">
         <div className="items-flex"></div>

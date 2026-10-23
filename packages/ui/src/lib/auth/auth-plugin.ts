@@ -2,6 +2,7 @@ import type {
   AuthPluginComponents,
   AuthPlugin as AuthPluginPrimitive
 } from "@better-auth-ui/react"
+import type { ReactNode } from "react"
 
 declare module "@better-auth-ui/core" {
   /** Widens `useAuth().plugins` to the shadcn-typed `AuthPlugin`. */
@@ -27,4 +28,4 @@ export type AuthPlugin = AuthPluginPrimitive<
   AuthPluginComponents,
   AuthViewProps,
   SettingsViewProps
->
+> & { captchaHost?: ReactNode }

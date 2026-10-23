@@ -20,13 +20,13 @@ __tests__/link-admin/agent/
 
 支持原生 Windows；WSL 可选。依赖统一由 Bun 管理；`e2e` CLI 暂不支持 Bun runtime，因此测试脚本通过 Vite+ 使用仓库要求的 Node.js 24.20+。不要跨操作系统共享 `node_modules`。
 
-在 `.env.local` 中填写密钥和 `LINK_ADMIN_E2E_URL`。登录账号默认使用 `admin@next.com`，密码通过 `E2E_USER_ADMIN_PASSWORD` 设置；可用 `E2E_USER_ADMIN_USERNAME` 覆盖邮箱。密码由测试框架的 credentials 机制填入和脱敏，不要写入测试源码或 Agent 指令。应用脚本通过 `run-agent.ts` 设置 `E2E_APP=link-admin`，只发现该应用命名空间内的测试。
+在 `.env` 中填写密钥和 `LINK_ADMIN_E2E_URL`，使用 `.env.example` 作为配置示例。登录账号默认使用 `admin@next.com`，密码通过 `E2E_USER_ADMIN_PASSWORD` 设置；可用 `E2E_USER_ADMIN_USERNAME` 覆盖邮箱。密码由测试框架的 credentials 机制填入和脱敏，不要写入测试源码或 Agent 指令。应用脚本通过 `run-agent.ts` 设置 `E2E_APP=link-admin`，只发现该应用命名空间内的测试。
 
 必须指定应用及其专属地址；地址缺失、空值或非法时立即报错。不再提供直接运行模式，不读取 `E2E_APP_URL`，不回退到 localhost。私有环境文件中已有的 `E2E_APP_URL` 可自行删除。
 
 Vitest 单元与集成测试保留在所属模块，通过支持该框架的编辑器按钮运行。Agent 测试通过 package 命令执行，不绑定编辑器通用测试按钮；Playwright 后续采用同样的应用命名空间边界，但本次不新增 Playwright runner。
 
-所有命令都加载 **packages/e2e/.env.local**，不加载 link-admin 的 `.env`。进程环境优先；`E2E_ENV_FILE` 可指定其他环境文件，相对路径以测试包为基准，显式指定不存在的文件会报错。模型默认 `deepseek-flash`，替换时需确认视觉和工具调用能力。
+所有命令只加载 **packages/e2e/.env**，不加载应用的环境文件或 `.env.local`，也不再支持 `E2E_ENV_FILE`。进程环境优先。模型默认 `deepseek-flash`，替换时需确认视觉和工具调用能力。
 
 请先自行启动被测应用；测试不负责启动或关闭 Next.js。
 
@@ -82,6 +82,22 @@ vpr test:agent:name "管理员" --list
 两个筛选入口默认无界面，追加 `--headed` 即可显示浏览器。所有筛选仅作用于 link-admin，不改变应用地址。
 
 `test:agent` 的第一个参数是应用 ID 或 `all`；未知 ID 立即报错。`--list` 转成原生测试发现命令，其他参数直接传给 e2e CLI。批量执行采用串行，任一应用失败则最终非零退出，不重新实现断言、重试或分片。
+
+## OTP registration E2E
+
+Run only the registration flow from the repository root:
+
+```sh
+bun run --filter @repo/e2e test:agent link-admin otp-registration.e2e.ts --headed --no-cache
+```
+
+Configure `RESEND_API_KEY` in `packages/e2e/.env` with permission to list and read sent emails in the same Resend account used by Admin. The key is used only in the runner, never passed to the browser or agent. No Gmail integration is needed.
+
+The runner generates a unique `delivered+registration-<uuid>@resend.dev` recipient and a random password for each run. Resend officially supports these labeled test addresses. The OTP secret resolver polls sent mail for up to 45 seconds, matches the exact recipient, subject and run time, and reads only the matching message body. Password and OTP fills use the runner's secret-redaction mechanism.
+
+One browser context covers registration, automatic sign-in, existing-account OTP sign-in without a password setup screen, unchanged profile name, and login with the original password. The test waits for the 60-second send cooldown before requesting a second code;without OTP, and an existing-email registration redirect. The success destination `/` currently redirects to `/dashboard`. This test does not verify delivery into a real mailbox or database rollback behavior.
+
+Each run sends one real Resend test email (counts toward quota) and creates one application account. It does not delete accounts or business data. Run against a development/test database only. The existing agent model and trace privacy considerations below also apply.
 
 ## 注意
 

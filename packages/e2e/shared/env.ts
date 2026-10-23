@@ -4,13 +4,9 @@ import { resolve } from "node:path";
 
 export const packageRoot = fileURLToPath(new URL("../", import.meta.url));
 
-// Resolve relative overrides against the test package, not the calling app.
-const override = process.env.E2E_ENV_FILE;
-const envFile = override
-  ? resolve(packageRoot, override)
-  : resolve(packageRoot, ".env.local");
+const envFile = resolve(packageRoot, ".env");
 
-if (override || existsSync(envFile)) process.loadEnvFile(envFile);
+if (existsSync(envFile)) process.loadEnvFile(envFile);
 
 export function httpUrl(name: string, value: string | undefined): string {
   if (!value?.trim()) {

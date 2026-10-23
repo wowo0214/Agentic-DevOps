@@ -6,3 +6,4 @@ export { Settings, type SettingsProps } from "./settings/settings";
 export { UserButton, type UserButtonProps } from "./user/user-button";
 export { themePlugin, type ThemePluginOptions } from "./lib/theme-plugin";
 export { anonymousPlugin } from "../lib/auth/anonymous-plugin";
+export { turnstilePlugin, captchaRequiredFetchOptions } from "./lib/turnstile-plugin";
