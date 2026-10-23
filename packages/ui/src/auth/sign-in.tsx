@@ -88,8 +88,8 @@ export function SignIn({
           })
         }
 
-        resetFetchOptions()
       },
+      onSettled: () => resetFetchOptions(),
       onSuccess: (data) => continueSignIn(data)
     })
 
@@ -302,9 +302,7 @@ export function SignIn({
                     </form.AppField>
                   )}
 
-                  {Captcha && (
-                    <div className="flex justify-center">{Captcha}</div>
-                  )}
+                  {Captcha}
 
                   <div className="flex flex-col gap-3">
                     <form.AuthFormSubmitButton

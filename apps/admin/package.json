@@ -16,6 +16,7 @@
   "dependencies": {
     "@better-auth-ui/core": "^1.7.27",
     "@better-auth-ui/react": "^1.7.27",
+    "@better-auth/core": "1.7.11",
     "@phosphor-icons/react": "^2.1.10",
     "@prisma/client": "^7.10.0",
     "@prisma/orm-postgres": "8.0.0-rc.17",
@@ -23,6 +24,7 @@
     "@repo/ui": "workspace:*",
     "@tanstack/react-form": "^1.33.5",
     "@tanstack/react-query": "^5.104.1",
+    "@tanstack/react-table": "^9.3.1",
     "better-auth": "^1.7.7",
     "bowser": "^2.14.1",
     "class-variance-authority": "^0.7.1",

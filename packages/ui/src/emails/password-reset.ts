@@ -66,14 +66,14 @@ export function passwordResetEmail({ name, resetUrl }: PasswordResetEmailOptions
                   </td>
                 </tr>
               </table>
-              <p style="margin-top:24px; margin-right:0; margin-bottom:8px; margin-left:0; font-family:&quot;Inter Variable&quot;, Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif; font-size:14px; line-height:21px; letter-spacing:0; color:#737373;">This link expires in 1 hour. If you didn't request a password reset, you can safely ignore this email.</p>
+              <p style="margin-top:24px; margin-right:0; margin-bottom:8px; margin-left:0; font-family:&quot;Inter Variable&quot;, Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif; font-size:15px; line-height:23px; letter-spacing:0; color:#525252;">This link expires in 1 hour. If you didn't request a password reset, you can safely ignore this email.</p>
               <p style="margin-top:22px; margin-right:0; margin-bottom:0; margin-left:0; font-family:&quot;Inter Variable&quot;, Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif; font-size:16px; line-height:24px; letter-spacing:0; color:#262626;">Thanks,<br>The Memo Team</p>
             </td>
           </tr>
           <tr>
-            <td bgcolor="#fafafa" style="padding-top:24px; padding-right:40px; padding-bottom:24px; padding-left:40px; background-color:#fafafa; border-top:1px solid #e5e7eb; border-bottom-left-radius:10px; border-bottom-right-radius:10px;">
-              <p style="margin-top:0; margin-right:0; margin-bottom:6px; margin-left:0; font-family:&quot;Inter Variable&quot;, Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif; font-size:12px; line-height:18px; letter-spacing:0.1px; color:#737373; text-align:center;">For your security, never forward this email or share this link.</p>
-              <p style="margin-top:0; margin-right:0; margin-bottom:0; margin-left:0; font-family:&quot;Inter Variable&quot;, Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif; font-size:12px; line-height:18px; letter-spacing:0.1px; color:#a3a3a3; text-align:center;">© Memo</p>
+            <td bgcolor="#fafafa" style="padding-top:28px; padding-right:40px; padding-bottom:28px; padding-left:40px; background-color:#fafafa; border-top:1px solid #e5e7eb; border-bottom-left-radius:10px; border-bottom-right-radius:10px;">
+              <p style="margin-top:0; margin-right:0; margin-bottom:6px; margin-left:0; font-family:&quot;Inter Variable&quot;, Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif; font-size:14px; line-height:21px; letter-spacing:0; color:#525252; text-align:center;">For your security, never forward this email or share this link.</p>
+              <p style="margin-top:0; margin-right:0; margin-bottom:0; margin-left:0; font-family:&quot;Inter Variable&quot;, Inter, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Arial, sans-serif; font-size:14px; line-height:21px; letter-spacing:0; color:#737373; text-align:center;">© Memo</p>
             </td>
           </tr>
         </table>

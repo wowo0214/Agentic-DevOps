@@ -20,6 +20,6 @@ export function proxy(request: NextRequest) {
 export const config = {
   // Match all paths except auth and static assets
   matcher: [
-    '/((?!api/auth(?:/|$)|auth(?:/|$)|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api/auth(?:/|$)|auth(?:/|$)|claude(?:/|$)|_next/static|_next/image|favicon.ico).*)',
   ],
 }

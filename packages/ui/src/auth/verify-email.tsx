@@ -1,16 +1,21 @@
 "use client"
 
-import { useAuth, useSendVerificationEmail } from "@better-auth-ui/react"
-import { useEffect, useState } from "react"
+import { useAuth, useFetchOptions, useSendVerificationEmail } from "@better-auth-ui/react"
+import { authQueryKeys } from "@better-auth-ui/core"
+import { useQueryClient } from "@tanstack/react-query"
+import { useEffect, useRef, useState } from "react"
+import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { toast } from "sonner"
 
 import { Button } from "@repo/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@repo/ui/card"
 import { FieldDescription } from "@repo/ui/field"
 import { Spinner } from "@repo/ui/spinner"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@repo/ui/input-otp"
 import { cn } from "cn"
 import { OpenEmailButton } from "./open-email-button"
 import { useIsHydrated } from "./use-is-hydrated"
+import { authFetch } from "./lib/auth-fetch"
 
 export type VerifyEmailProps = {
   className?: string
@@ -39,14 +44,49 @@ export function VerifyEmail({ className }: VerifyEmailProps) {
     localization,
     redirectTo,
     viewPaths,
+    navigate,
+    plugins,
     Link
   } = useAuth()
 
   const isHydrated = useIsHydrated()
+  const queryClient = useQueryClient()
   const [email, setEmail] = useState(
     (isHydrated && sessionStorage.getItem("better-auth-ui.verify-email")) || ""
   )
   const [cooldown, setCooldown] = useState(RESEND_COOLDOWN_SECONDS)
+  const [otp, setOtp] = useState("")
+  const [isVerifying, setIsVerifying] = useState(false)
+  const verifying = useRef(false)
+  const { fetchOptions, resetFetchOptions } = useFetchOptions()
+  const Captcha = plugins.find((plugin) => plugin.captchaComponent)?.captchaComponent
+
+  async function verify() {
+    if (verifying.current || !/^\d{6}$/.test(otp)) return
+    verifying.current = true
+    setIsVerifying(true)
+    try {
+      const { error } = await authFetch(authClient)("/email-otp/verify-email", {
+        ...fetchOptions,
+        method: "POST",
+        body: { email, otp },
+      })
+      if (error) {
+        toast.error(error.message || "Unable to verify this code.")
+        return
+      }
+      sessionStorage.removeItem("better-auth-ui.verify-email")
+      await authClient.getSession({ fetchOptions: { cache: "no-store" } })
+      await queryClient.invalidateQueries({ queryKey: authQueryKeys.all })
+      navigate({ to: redirectTo, replace: true })
+    } catch {
+      toast.error("Unable to verify this code. Please try again.")
+    } finally {
+      resetFetchOptions()
+      verifying.current = false
+      setIsVerifying(false)
+    }
+  }
 
   useEffect(() => {
     setEmail(sessionStorage.getItem("better-auth-ui.verify-email") ?? "")
@@ -65,8 +105,10 @@ export function VerifyEmail({ className }: VerifyEmailProps) {
   const { mutate: sendVerificationEmail, isPending } = useSendVerificationEmail(
     authClient,
     {
+      onSettled: () => resetFetchOptions(),
       onSuccess: () => {
         toast.success(localization.auth.verificationEmailSent)
+        setOtp("")
         setCooldown(RESEND_COOLDOWN_SECONDS)
       }
     }
@@ -90,15 +132,41 @@ export function VerifyEmail({ className }: VerifyEmailProps) {
 
           {email && (
             <div className="flex flex-col gap-3">
+              <form
+                className="flex flex-col gap-3"
+                onSubmit={(event) => { event.preventDefault(); void verify() }}
+              >
+                <label htmlFor="email-verification-otp">Verification code</label>
+                <InputOTP
+                  id="email-verification-otp"
+                  maxLength={6}
+                  pattern={REGEXP_ONLY_DIGITS}
+                  value={otp}
+                  onChange={setOtp}
+                  disabled={isVerifying || isPending}
+                >
+                  <InputOTPGroup>
+                    {Array.from({ length: 6 }, (_, index) => (
+                      <InputOTPSlot key={index} index={index} />
+                    ))}
+                  </InputOTPGroup>
+                </InputOTP>
+                {Captcha}
+                <Button type="submit" disabled={isVerifying || isPending || otp.length !== 6}>
+                  {isVerifying && <Spinner />}
+                  {localization.auth.verifyEmail}
+                </Button>
+              </form>
               <OpenEmailButton email={email} />
 
               <Button
                 type="button"
                 variant="outline"
-                disabled={!email || isCoolingDown || isPending}
+                disabled={!email || isCoolingDown || isPending || isVerifying}
                 onClick={() =>
                   sendVerificationEmail({
                     email,
+                    fetchOptions,
                     callbackURL: `${baseURL}${redirectTo}`
                   })
                 }

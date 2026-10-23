@@ -61,6 +61,8 @@ export function ErrorToaster() {
         return
       }
       if (getAuthErrorPresentation(mutation.meta) !== "toast") return
+      // The full-page verification explains this itself.
+      if (getAuthErrorCode(error) === "CAPTCHA_REQUIRED") return
       // Every form that sets a new password renders this one against the
       // password field, so a toast would just repeat it.
       if (isPasswordCompromisedError(error)) return

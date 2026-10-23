@@ -19,3 +19,5 @@ plans
 
 # skill
 .agents/
+# Dev-only test pages (not committed)
+apps/admin/app/claude
