@@ -1,0 +1,128 @@
+[
+  {
+    "id": "column.public.conversation.last_seq",
+    "label": "Add column \"last_seq\" to \"conversation\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "last_seq",
+        "table": "conversation"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"last_seq\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "conversation",
+          "last_seq"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"last_seq\"",
+        "sql": "ALTER TABLE \"public\".\"conversation\" ADD COLUMN \"last_seq\" int4 DEFAULT 0 NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"last_seq\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "conversation",
+          "last_seq"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.message.seq",
+    "label": "Add column \"seq\" to \"message\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "seq",
+        "table": "message"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"seq\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "message",
+          "seq"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"seq\"",
+        "sql": "ALTER TABLE \"public\".\"message\" ADD COLUMN \"seq\" int4 DEFAULT 0 NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"seq\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "message",
+          "seq"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.message.message_conversation_seq_key",
+    "label": "Add unique constraint on \"message\" (conversation_id, seq)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "message_conversation_seq_key",
+        "table": "message"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"message_conversation_seq_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "message_conversation_seq_key",
+          "public",
+          "\"public\".\"message\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"message_conversation_seq_key\"",
+        "sql": "ALTER TABLE \"public\".\"message\" ADD CONSTRAINT \"message_conversation_seq_key\" UNIQUE (\"conversation_id\", \"seq\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"message_conversation_seq_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "message_conversation_seq_key",
+          "public",
+          "\"public\".\"message\""
+        ]
+      }
+    ]
+  }
+]

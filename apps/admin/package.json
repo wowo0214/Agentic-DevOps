@@ -10,6 +10,11 @@
     "test:agent": "bun run --filter @repo/e2e test:agent -- link-admin --headed --no-cache",
     "test:agent:file": "bun run --filter @repo/e2e test:agent -- link-admin --headed",
     "test:agent:name": "bun run --filter @repo/e2e test:agent -- link-admin --headed --grep",
+    "lint": "oxlint",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "check": "bun run lint && bun run fmt:check",
+    "permissions:sync": "bun scripts/sync-permissions.ts",
     "prisma:infer": "bun --bun prisma contract infer --output ./app/prisma/contract.prisma",
     "prisma:emit": "bun --bun lowercase-prisma-models"
   },

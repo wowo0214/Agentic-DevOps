@@ -5,16 +5,8 @@ import {
   RowsIcon,
   WaveformIcon,
   CommandIcon,
-  UsersThreeIcon,
-  RobotIcon,
-  BookOpenIcon,
-  GearIcon,
-  CropIcon,
-  ChartPieIcon,
-  MapTrifoldIcon,
 } from '@phosphor-icons/react'
 import * as React from 'react'
-import { authClient } from '@/lib/auth/auth-client'
 import {
   Sidebar,
   SidebarContent,
@@ -30,8 +22,6 @@ import {
 } from '@repo/ui/sidebar'
 import { Calendars } from './calendars'
 import { DatePicker } from './date-picker'
-import { NavMain } from './nav-main'
-import { NavProjects } from './nav-projects'
 import { NavUser } from './nav-user'
 import { TeamSwitcher } from './team-switcher'
 
@@ -54,120 +44,12 @@ const data = {
       plan: 'Free',
     },
   ],
-  navMain: [
-    {
-      title: 'Membership',
-      url: '#',
-      icon: <UsersThreeIcon />,
-      isActive: true,
-      items: [
-        {
-          title: 'Student management',
-          url: '#',
-        },
-        {
-          title: 'Tenant management',
-          url: '/tenants',
-        },
-      ],
-    },
-    {
-      title: 'Models',
-      url: '#',
-      icon: <RobotIcon />,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: <BookOpenIcon />,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: <GearIcon />,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: <CropIcon />,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: <ChartPieIcon />,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: <MapTrifoldIcon />,
-    },
-  ],
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ navigation, ...props }: React.ComponentProps<typeof Sidebar> & { navigation: React.ReactNode }) {
   const [view, setView] = React.useState<'workspace' | 'calendar'>('workspace')
   const { setOpen } = useSidebar()
-  const { data: session } = authClient.useSession()
   const isCalendar = view === 'calendar'
-  const isSuperAdmin = session?.user.role === 'admin'
-  const navMain = data.navMain.map((item) => ({
-    ...item,
-    items: item.items?.filter(
-      (subItem) => subItem.url !== '/tenants' || isSuperAdmin,
-    ),
-  }))
 
   return (
     <Sidebar {...props} collapsible={isCalendar ? 'offcanvas' : 'icon'}>
@@ -209,8 +91,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroup>
-          <NavMain items={navMain} />
-          <NavProjects projects={data.projects} />
+          {navigation}
         </div>
         {isCalendar && (
           <>

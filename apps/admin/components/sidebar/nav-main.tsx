@@ -1,5 +1,8 @@
 "use client"
 
+import Link from "next/link"
+import type { Route } from "next"
+import { usePathname } from "next/navigation"
 import {
   Collapsible,
   CollapsibleContent,
@@ -19,7 +22,9 @@ import { CaretRightIcon } from "@phosphor-icons/react"
 
 export function NavMain({
   items,
+  label = "Platform",
 }: {
+  label?: string
   items: {
     title: string
     url: string
@@ -31,11 +36,24 @@ export function NavMain({
     }[]
   }[]
 }) {
+  const pathname = usePathname()
+
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {items.map((item) => !item.items?.length ? (
+          <SidebarMenuItem key={item.url}>
+            <SidebarMenuButton
+              tooltip={item.title}
+              isActive={pathname === item.url || pathname.startsWith(`${item.url}/`) || (item.url === '/settings/account' && pathname.startsWith('/settings/'))}
+              render={<Link href={item.url as Route} />}
+            >
+              {item.icon}
+              <span>{item.title}</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        ) : (
           <Collapsible
             key={item.title}
             defaultOpen={item.isActive}

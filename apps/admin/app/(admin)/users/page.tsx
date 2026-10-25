@@ -1,22 +1,22 @@
 import { headers } from 'next/headers'
-import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import {
-  TenantUserTable,
-  type TenantUser,
-} from '@/app/(admin)/tenants/_components/tenant-user-table'
+  UserTable,
+  type User,
+} from '@/app/(admin)/users/_components/user-table'
 import { auth } from '@/lib/auth/auth'
+import { requirePagePermission } from '@/lib/permissions/server'
 import { requireSession } from '@/lib/require-session'
 
-export default function TenantsPage() {
+export default function UsersPage() {
   return (
-    <Suspense fallback={<TenantsPageFallback />}>
-      <TenantsPageContent />
+    <Suspense fallback={<UsersPageFallback />}>
+      <UsersPageContent />
     </Suspense>
   )
 }
 
-function TenantsPageFallback() {
+function UsersPageFallback() {
   return (
     <div className="w-full p-4 md:p-6" aria-busy="true">
       <div className="mb-6 space-y-2">
@@ -28,10 +28,10 @@ function TenantsPageFallback() {
   )
 }
 
-async function TenantsPageContent() {
+async function UsersPageContent() {
   const { session } = await requireSession()
 
-  if (session.user.role !== 'admin') notFound()
+  await requirePagePermission(session.user, 'user:read')
 
   const requestHeaders = await headers()
   const pageSize = 100
@@ -59,7 +59,7 @@ async function TenantsPageContent() {
     userRecords.push(...page.users)
   }
 
-  const users: TenantUser[] = userRecords
+  const users: User[] = userRecords
     .filter((user) => !('isAnonymous' in user && user.isAnonymous === true))
     .map((user) => ({
       id: user.id,
@@ -80,13 +80,13 @@ async function TenantsPageContent() {
     <div className="w-full p-4 md:p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-semibold tracking-tight">
-          Tenant management
+          管理员管理
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          View non-anonymous users and their ban status. Twenty users per page.
+          查看用户账号及封禁状态，每页显示 20 位用户。
         </p>
       </div>
-      <TenantUserTable users={users} />
+      <UserTable users={users} />
     </div>
   )
 }

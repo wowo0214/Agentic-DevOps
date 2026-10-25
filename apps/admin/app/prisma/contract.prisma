@@ -81,3 +81,85 @@ model Verification {
   @@index([identifier], map: "verification_identifier_idx")
   @@map("verification")
 }
+
+enum ConversationType {
+  @@type("pg/text@1")
+  direct = "direct"
+  group = "group"
+}
+
+enum ConversationMemberRole {
+  @@type("pg/text@1")
+  owner = "owner"
+  member = "member"
+}
+
+model Conversation {
+  id        String            @id @default(uuid())
+  type      ConversationType
+  title     String?
+  createdBy String            @map("created_by")
+  directKey String?           @unique @map("direct_key")
+  createdAt TimestamptzString @default(now()) @map("created_at")
+  lastSeq   Int               @default(0) @map("last_seq")
+  creator   User              @relation(fields: [createdBy], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@check(expression: "(type = 'direct' AND direct_key IS NOT NULL AND length(btrim(direct_key)) > 0 AND title IS NULL) OR (type = 'group' AND direct_key IS NULL AND title IS NOT NULL AND length(btrim(title)) > 0)", name: "conversation_shape")
+  @@index([createdBy])
+  @@map("conversation")
+}
+
+model ConversationMember {
+  conversationId    String                 @map("conversation_id")
+  userId            String                 @map("user_id")
+  memberRole        ConversationMemberRole @default(member) @map("member_role")
+  joinedAt          TimestamptzString       @default(now()) @map("joined_at")
+  lastReadMessageId String?                @map("last_read_message_id")
+  conversation      Conversation           @relation(fields: [conversationId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  user              User                   @relation(fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  lastReadMessage   Message?               @relation(fields: [conversationId, lastReadMessageId], references: [conversationId, id], onDelete: Restrict, onUpdate: Cascade, map: "member_last_read_message_fkey")
+
+  @@id([conversationId, userId])
+  @@index([userId, conversationId])
+  @@index([conversationId, lastReadMessageId], name: "member_last_read_idx")
+  @@map("conversation_member")
+}
+
+model Permission {
+  code        String  @id
+  name        String
+  description String?
+
+  @@map("permission")
+}
+
+model RolePermission {
+  role           String
+  permissionCode String     @map("permission_code")
+  permission     Permission @relation(fields: [permissionCode], references: [code], onDelete: Restrict, onUpdate: Cascade)
+
+  @@id([role, permissionCode])
+  @@index([permissionCode])
+  @@map("role_permission")
+}
+
+model Message {
+  id              String            @id @default(uuid())
+  conversationId  String            @map("conversation_id")
+  senderId        String            @map("sender_id")
+  clientMessageId String            @map("client_message_id")
+  content         String
+  seq             Int               @default(0)
+  createdAt       TimestamptzString @default(now()) @map("created_at")
+  conversation    Conversation      @relation(fields: [conversationId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  sender          User              @relation(fields: [senderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@unique([conversationId, id])
+  @@unique([conversationId, seq], map: "message_conversation_seq_key")
+  @@unique([conversationId, senderId, clientMessageId], map: "message_client_dedup")
+  @@index([conversationId, createdAt, id])
+  @@index([senderId])
+  @@check(expression: "length(btrim(content)) > 0", name: "message_content_not_empty")
+  @@check(expression: "length(btrim(client_message_id)) > 0", name: "message_client_id_not_empty")
+  @@map("message")
+}

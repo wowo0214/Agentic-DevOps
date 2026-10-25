@@ -17,12 +17,29 @@ if (Boolean(turnstileSiteKey) !== Boolean(turnstileSecretKey)) {
 
 export const database = new Pool({
   connectionString: process.env.DATABASE_URL,
+  // Keep connections warm: reconnecting to a remote Neon host costs several round trips (TLS + auth).
+  idleTimeoutMillis: 5 * 60_000,
+  keepAlive: true,
 })
 
 export const auth = betterAuth({
   // Better Auth 1.7.11 detects pg.Pool and enables real transactions.
   database,
   rateLimit: { enabled: true },
+  // Cache the session in a signed cookie so most requests skip the DB lookup.
+  // Bans/revocations can take up to maxAge to apply.
+  session: { cookieCache: { enabled: true, maxAge: 5 * 60 } },
+  databaseHooks: {
+    user: {
+      create: {
+        // Roles are decided here, never by the client: anonymous sign-in is `guest`, every other sign-up is `user`.
+        // `admin` is only granted afterwards by an existing administrator.
+        before: async (user) => ({
+          data: { ...user, role: (user as { isAnonymous?: boolean | null }).isAnonymous === true ? 'guest' : 'user' },
+        }),
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     disableSignUp: true,

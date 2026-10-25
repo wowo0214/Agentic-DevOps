@@ -12,6 +12,26 @@
       "model": "account",
       "namespace": "public"
     },
+    "conversation": {
+      "model": "conversation",
+      "namespace": "public"
+    },
+    "conversation_member": {
+      "model": "conversationMember",
+      "namespace": "public"
+    },
+    "message": {
+      "model": "message",
+      "namespace": "public"
+    },
+    "permission": {
+      "model": "permission",
+      "namespace": "public"
+    },
+    "role_permission": {
+      "model": "rolePermission",
+      "namespace": "public"
+    },
     "session": {
       "model": "session",
       "namespace": "public"
@@ -28,6 +48,34 @@
   "domain": {
     "namespaces": {
       "public": {
+        "enum": {
+          "ConversationMemberRole": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "owner",
+                "value": "owner"
+              },
+              {
+                "name": "member",
+                "value": "member"
+              }
+            ]
+          },
+          "ConversationType": {
+            "codecId": "pg/text@1",
+            "members": [
+              {
+                "name": "direct",
+                "value": "direct"
+              },
+              {
+                "name": "group",
+                "value": "group"
+              }
+            ]
+          }
+        },
         "models": {
           "account": {
             "fields": {
@@ -187,6 +235,383 @@
               "table": "account"
             }
           },
+          "conversation": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdBy": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "directKey": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastSeq": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "title": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "type": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "ConversationType",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              }
+            },
+            "relations": {
+              "creator": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "createdBy"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "user",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "created_at"
+                },
+                "createdBy": {
+                  "column": "created_by"
+                },
+                "directKey": {
+                  "column": "direct_key"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "lastSeq": {
+                  "column": "last_seq"
+                },
+                "title": {
+                  "column": "title"
+                },
+                "type": {
+                  "column": "type"
+                }
+              },
+              "namespaceId": "public",
+              "table": "conversation"
+            }
+          },
+          "conversationMember": {
+            "fields": {
+              "conversationId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "joinedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastReadMessageId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "memberRole": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                },
+                "valueSet": {
+                  "entityKind": "enum",
+                  "entityName": "ConversationMemberRole",
+                  "namespaceId": "public",
+                  "plane": "domain"
+                }
+              },
+              "userId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "conversation": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "conversationId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "conversation",
+                  "namespace": "public"
+                }
+              },
+              "lastReadMessage": {
+                "cardinality": "N:1",
+                "nullable": true,
+                "on": {
+                  "localFields": [
+                    "conversationId",
+                    "lastReadMessageId"
+                  ],
+                  "targetFields": [
+                    "conversationId",
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "message",
+                  "namespace": "public"
+                }
+              },
+              "user": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "userId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "user",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "conversationId": {
+                  "column": "conversation_id"
+                },
+                "joinedAt": {
+                  "column": "joined_at"
+                },
+                "lastReadMessageId": {
+                  "column": "last_read_message_id"
+                },
+                "memberRole": {
+                  "column": "member_role"
+                },
+                "userId": {
+                  "column": "user_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "conversation_member"
+            }
+          },
+          "message": {
+            "fields": {
+              "clientMessageId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "content": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "conversationId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "senderId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "seq": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "conversation": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "conversationId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "conversation",
+                  "namespace": "public"
+                }
+              },
+              "sender": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "senderId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "user",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "clientMessageId": {
+                  "column": "client_message_id"
+                },
+                "content": {
+                  "column": "content"
+                },
+                "conversationId": {
+                  "column": "conversation_id"
+                },
+                "createdAt": {
+                  "column": "created_at"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "senderId": {
+                  "column": "sender_id"
+                },
+                "seq": {
+                  "column": "seq"
+                }
+              },
+              "namespaceId": "public",
+              "table": "message"
+            }
+          },
+          "permission": {
+            "fields": {
+              "code": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "description": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "code": {
+                  "column": "code"
+                },
+                "description": {
+                  "column": "description"
+                },
+                "name": {
+                  "column": "name"
+                }
+              },
+              "namespaceId": "public",
+              "table": "permission"
+            }
+          },
           "prismaMigrations": {
             "fields": {
               "appliedStepsCount": {
@@ -285,6 +710,54 @@
               },
               "namespaceId": "public",
               "table": "_prisma_migrations"
+            }
+          },
+          "rolePermission": {
+            "fields": {
+              "permissionCode": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "role": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "permission": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "permissionCode"
+                  ],
+                  "targetFields": [
+                    "code"
+                  ]
+                },
+                "to": {
+                  "model": "permission",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "permissionCode": {
+                  "column": "permission_code"
+                },
+                "role": {
+                  "column": "role"
+                }
+              },
+              "namespaceId": "public",
+              "table": "role_permission"
             }
           },
           "session": {
@@ -839,6 +1312,517 @@
               },
               "uniques": []
             },
+            "conversation": {
+              "checks": [
+                {
+                  "expression": "(type = 'direct' AND direct_key IS NOT NULL AND length(btrim(direct_key)) > 0 AND title IS NULL) OR (type = 'group' AND direct_key IS NULL AND title IS NOT NULL AND length(btrim(title)) > 0)",
+                  "name": "conversation_shape_1e306abd",
+                  "prefix": "conversation_shape"
+                },
+                {
+                  "expression": "\"type\" IN ('direct', 'group')",
+                  "name": "conversation_type_check_142a40eb",
+                  "prefix": "conversation_type_check"
+                }
+              ],
+              "columns": {
+                "created_at": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "dataType": "pg/timestamptz",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nullable": false
+                },
+                "created_by": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "direct_key": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "last_seq": {
+                  "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
+                  "default": {
+                    "kind": "literal",
+                    "value": 0
+                  },
+                  "nullable": false
+                },
+                "title": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "type": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "ConversationType",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "conversation_created_by_idx_e13bb8bf"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "created_by"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "conversation"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "created_by"
+                  ],
+                  "name": "conversation_created_by_idx_e13bb8bf",
+                  "prefix": "conversation_created_by_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "direct_key"
+                  ]
+                }
+              ]
+            },
+            "conversation_member": {
+              "checks": [
+                {
+                  "expression": "\"member_role\" IN ('owner', 'member')",
+                  "name": "conversation_member_member_role_check_8a1d7bb3",
+                  "prefix": "conversation_member_member_role_check"
+                }
+              ],
+              "columns": {
+                "conversation_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "joined_at": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "dataType": "pg/timestamptz",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nullable": false
+                },
+                "last_read_message_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "member_role": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "default": {
+                    "kind": "literal",
+                    "value": "member"
+                  },
+                  "nullable": false,
+                  "valueSet": {
+                    "entityKind": "valueSet",
+                    "entityName": "ConversationMemberRole",
+                    "namespaceId": "public",
+                    "plane": "storage"
+                  }
+                },
+                "user_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "conversation_member_conversation_id_idx_0c3639df"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "conversation_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "conversation_member"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "conversation"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "conversation_member_user_id_idx_6c952402"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "user_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "conversation_member"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "member_last_read_idx_ce681a0b"
+                  },
+                  "name": "member_last_read_message_fkey",
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "conversation_id",
+                      "last_read_message_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "conversation_member"
+                  },
+                  "target": {
+                    "columns": [
+                      "conversation_id",
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "message"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "conversation_id"
+                  ],
+                  "name": "conversation_member_conversation_id_idx_0c3639df",
+                  "prefix": "conversation_member_conversation_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "user_id",
+                    "conversation_id"
+                  ],
+                  "name": "conversation_member_user_id_conversation_id_idx_d9ceba10",
+                  "prefix": "conversation_member_user_id_conversation_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "user_id"
+                  ],
+                  "name": "conversation_member_user_id_idx_6c952402",
+                  "prefix": "conversation_member_user_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "conversation_id",
+                    "last_read_message_id"
+                  ],
+                  "name": "member_last_read_idx_ce681a0b",
+                  "prefix": "member_last_read_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "conversation_id",
+                  "user_id"
+                ]
+              },
+              "uniques": []
+            },
+            "message": {
+              "checks": [
+                {
+                  "expression": "length(btrim(client_message_id)) > 0",
+                  "name": "message_client_id_not_empty_56264250",
+                  "prefix": "message_client_id_not_empty"
+                },
+                {
+                  "expression": "length(btrim(content)) > 0",
+                  "name": "message_content_not_empty_9b428f84",
+                  "prefix": "message_content_not_empty"
+                }
+              ],
+              "columns": {
+                "client_message_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "content": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "conversation_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "created_at": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "dataType": "pg/timestamptz",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "sender_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "seq": {
+                  "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
+                  "default": {
+                    "kind": "literal",
+                    "value": 0
+                  },
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "message_conversation_id_idx_0c3639df"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "conversation_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "message"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "conversation"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "message_sender_id_idx_311853a4"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "sender_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "message"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "conversation_id",
+                    "created_at",
+                    "id"
+                  ],
+                  "name": "message_conversation_id_created_at_id_idx_3c009cf9",
+                  "prefix": "message_conversation_id_created_at_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "conversation_id"
+                  ],
+                  "name": "message_conversation_id_idx_0c3639df",
+                  "prefix": "message_conversation_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "sender_id"
+                  ],
+                  "name": "message_sender_id_idx_311853a4",
+                  "prefix": "message_sender_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": [
+                {
+                  "columns": [
+                    "conversation_id",
+                    "id"
+                  ]
+                },
+                {
+                  "columns": [
+                    "conversation_id",
+                    "sender_id",
+                    "client_message_id"
+                  ],
+                  "name": "message_client_dedup"
+                },
+                {
+                  "columns": [
+                    "conversation_id",
+                    "seq"
+                  ],
+                  "name": "message_conversation_seq_key"
+                }
+              ]
+            },
+            "permission": {
+              "columns": {
+                "code": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "description": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "code"
+                ]
+              },
+              "uniques": []
+            },
+            "role_permission": {
+              "columns": {
+                "permission_code": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "role": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "role_permission_permission_code_idx_8904843b"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "permission_code"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "role_permission"
+                  },
+                  "target": {
+                    "columns": [
+                      "code"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "permission"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "permission_code"
+                  ],
+                  "name": "role_permission_permission_code_idx_8904843b",
+                  "prefix": "role_permission_permission_code_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "role",
+                  "permission_code"
+                ]
+              },
+              "uniques": []
+            },
             "session": {
               "columns": {
                 "createdAt": {
@@ -1094,13 +2078,58 @@
               },
               "uniques": []
             }
+          },
+          "valueSet": {
+            "ConversationMemberRole": {
+              "kind": "valueSet",
+              "values": [
+                "owner",
+                "member"
+              ]
+            },
+            "ConversationType": {
+              "kind": "valueSet",
+              "values": [
+                "direct",
+                "group"
+              ]
+            }
           }
         },
         "id": "public",
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "673d7cf63d206d2045493b2aab127d48eccc3aa3829840f7c8f8c037fa4333e9"
+    "storageHash": "d2631dc71521defd432b76ae003227c3303deb9f37fb898c35dbb2ee74ecfee0"
+  },
+  "execution": {
+    "executionHash": "651c5ebfab073f95af64c385c22f03489a7dc6618e180d8c7e3bffbf12459aaf",
+    "mutations": {
+      "defaults": [
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "conversation",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "message",
+            "field": "id",
+            "namespace": "public"
+          }
+        }
+      ]
+    }
   },
   "capabilities": {
     "postgres": {

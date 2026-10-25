@@ -18,7 +18,7 @@ import {
   TableRow,
 } from '@repo/ui/table'
 
-export type TenantUser = {
+export type User = {
   id: string
   name: string
   email: string
@@ -40,7 +40,7 @@ function formatBanExpires(value: string | null) {
   }).format(date)
 }
 
-const columns: LegacyColumnDef<TenantUser>[] = [
+const columns: LegacyColumnDef<User>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -96,7 +96,7 @@ const columns: LegacyColumnDef<TenantUser>[] = [
   },
 ]
 
-export function TenantUserTable({ users }: { users: TenantUser[] }) {
+export function UserTable({ users }: { users: User[] }) {
   const table = useLegacyTable({
     columns,
     data: users,
