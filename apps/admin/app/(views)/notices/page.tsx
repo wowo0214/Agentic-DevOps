@@ -1,5 +1,5 @@
-import type { Route } from 'next'
 import { redirect } from 'next/navigation'
+import type { Route } from 'next'
 
 export const instant = false
 

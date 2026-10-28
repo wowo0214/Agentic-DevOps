@@ -1,11 +1,7 @@
 'use client'
 
 import { ArrowLeftIcon, CalendarIcon } from '@phosphor-icons/react'
-import {
-  RowsIcon,
-  WaveformIcon,
-  CommandIcon,
-} from '@phosphor-icons/react'
+import { RowsIcon, WaveformIcon, CommandIcon } from '@phosphor-icons/react'
 import * as React from 'react'
 import {
   Sidebar,
@@ -46,7 +42,10 @@ const data = {
   ],
 }
 
-export function AppSidebar({ navigation, ...props }: React.ComponentProps<typeof Sidebar> & { navigation: React.ReactNode }) {
+export function AppSidebar({
+  navigation,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { navigation: React.ReactNode }) {
   const [view, setView] = React.useState<'workspace' | 'calendar'>('workspace')
   const { setOpen } = useSidebar()
   const isCalendar = view === 'calendar'

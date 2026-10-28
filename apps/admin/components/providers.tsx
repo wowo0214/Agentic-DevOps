@@ -13,7 +13,9 @@ import type { Route } from 'next'
 import type { ComponentProps, ReactNode } from 'react'
 
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim()
-const captchaPlugins = turnstileSiteKey ? [turnstilePlugin(turnstileSiteKey)] : []
+const captchaPlugins = turnstileSiteKey
+  ? [turnstilePlugin(turnstileSiteKey)]
+  : []
 
 export function Providers({ children }: { children: ReactNode }) {
   const router = useRouter()

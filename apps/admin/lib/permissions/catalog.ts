@@ -25,19 +25,33 @@ export const PERMISSIONS = {
 export type PermissionCode = keyof typeof PERMISSIONS
 
 const guestGrants = [
-  'dashboard:read', 'module:read', 'test:read', 'experiment:read',
-  'public-resource:read', 'publication:read', 'conversation:read',
+  'dashboard:read',
+  'module:read',
+  'test:read',
+  'experiment:read',
+  'public-resource:read',
+  'publication:read',
+  'conversation:read',
 ] as const satisfies readonly PermissionCode[]
 
 const userGrants = [
   ...guestGrants,
-  'conversation:create', 'message:send', 'conversation:mark-read', 'community:user:search',
+  'conversation:create',
+  'message:send',
+  'conversation:mark-read',
+  'community:user:search',
 ] as const satisfies readonly PermissionCode[]
 
 // admin has no implicit bypass: every code it may use is listed here.
 const adminGrants = [
   ...userGrants,
-  'maintenance:read', 'user:read', 'user:role:update', 'content:read', 'doc:read', 'monitoring:read', 'log:read',
+  'maintenance:read',
+  'user:read',
+  'user:role:update',
+  'content:read',
+  'doc:read',
+  'monitoring:read',
+  'log:read',
 ] as const satisfies readonly PermissionCode[]
 
 export const ROLE_PERMISSIONS: Record<string, readonly PermissionCode[]> = {

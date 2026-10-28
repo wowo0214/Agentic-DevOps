@@ -1,32 +1,32 @@
-import type { BetterAuthPlugin } from "better-auth";
-import { APIError, createAuthMiddleware } from "better-auth/api";
+import { APIError, createAuthMiddleware } from 'better-auth/api'
+import type { BetterAuthPlugin } from 'better-auth'
 
-export const CAPTCHA_REQUIRED = "CAPTCHA_REQUIRED";
+export const CAPTCHA_REQUIRED = 'CAPTCHA_REQUIRED'
 
 export type RiskCaptchaOptions = {
   /** Without a key the plugin stays inert, which keeps the plugin list a fixed tuple for type inference. */
-  secretKey?: string;
+  secretKey?: string
   /** Paths (without base path) that may demand a challenge. */
-  endpoints: string[];
-  expectedAction?: string;
+  endpoints: string[]
+  expectedAction?: string
   /** Failed attempts per client within `windowMs` before a challenge is demanded. */
-  maxFailures?: number;
+  maxFailures?: number
   /** Total requests per client within `windowMs` before a challenge is demanded. */
-  maxRequests?: number;
-  windowMs?: number;
-};
+  maxRequests?: number
+  windowMs?: number
+}
 
-type Bucket = { requests: number; failures: number; resetAt: number };
+type Bucket = { requests: number; failures: number; resetAt: number }
 
-const SITEVERIFY = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const SITEVERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
 
 function clientKey(headers: Headers | undefined) {
   const ip =
-    headers?.get("cf-connecting-ip") ??
-    headers?.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    headers?.get("x-real-ip") ??
-    "unknown";
-  return ip;
+    headers?.get('cf-connecting-ip') ??
+    headers?.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    headers?.get('x-real-ip') ??
+    'unknown'
+  return ip
 }
 
 /**
@@ -46,65 +46,71 @@ export function riskCaptcha({
   maxRequests = 10,
   windowMs = 10 * 60 * 1000,
 }: RiskCaptchaOptions) {
-  const buckets = new Map<string, Bucket>();
+  const buckets = new Map<string, Bucket>()
 
   function bucket(key: string) {
-    const now = Date.now();
-    let entry = buckets.get(key);
+    const now = Date.now()
+    let entry = buckets.get(key)
     if (!entry || entry.resetAt <= now) {
-      entry = { requests: 0, failures: 0, resetAt: now + windowMs };
-      buckets.set(key, entry);
+      entry = { requests: 0, failures: 0, resetAt: now + windowMs }
+      buckets.set(key, entry)
       if (buckets.size > 10_000) {
-        for (const [k, v] of buckets) if (v.resetAt <= now) buckets.delete(k);
+        for (const [k, v] of buckets) if (v.resetAt <= now) buckets.delete(k)
       }
     }
-    return entry;
+    return entry
   }
 
-  const matches = (path: string | undefined) => !!secretKey && !!path && endpoints.includes(path);
+  const matches = (path: string | undefined) =>
+    !!secretKey && !!path && endpoints.includes(path)
 
   async function verify(token: string, ip: string) {
-    const body = new URLSearchParams({ secret: secretKey ?? "", response: token });
-    if (ip !== "unknown") body.set("remoteip", ip);
+    const body = new URLSearchParams({
+      secret: secretKey ?? '',
+      response: token,
+    })
+    if (ip !== 'unknown') body.set('remoteip', ip)
     try {
-      const res = await fetch(SITEVERIFY, { method: "POST", body });
-      const data = (await res.json()) as { success?: boolean; action?: string };
-      if (!data.success) return false;
-      return !expectedAction || !data.action || data.action === expectedAction;
+      const res = await fetch(SITEVERIFY, { method: 'POST', body })
+      const data = (await res.json()) as { success?: boolean; action?: string }
+      if (!data.success) return false
+      return !expectedAction || !data.action || data.action === expectedAction
     } catch {
-      return false;
+      return false
     }
   }
 
   return {
-    id: "risk-captcha" as const,
+    id: 'risk-captcha' as const,
     hooks: {
       before: [
         {
           matcher: (ctx) => matches(ctx.path),
           handler: createAuthMiddleware(async (ctx) => {
-            const key = clientKey(ctx.headers);
-            const entry = bucket(key);
-            const token = ctx.headers?.get("x-captcha-response");
+            const key = clientKey(ctx.headers)
+            const entry = bucket(key)
+            const token = ctx.headers?.get('x-captcha-response')
 
             if (token) {
               if (!(await verify(token, key))) {
-                throw new APIError("FORBIDDEN", {
+                throw new APIError('FORBIDDEN', {
                   code: CAPTCHA_REQUIRED,
-                  message: "Verification failed. Please complete the check and try again.",
-                });
+                  message:
+                    'Verification failed. Please complete the check and try again.',
+                })
               }
-              entry.requests = 0;
-              entry.failures = 0;
-              return;
+              entry.requests = 0
+              entry.failures = 0
+              return
             }
 
-            entry.requests += 1;
+            entry.requests += 1
             if (entry.failures >= maxFailures || entry.requests > maxRequests) {
-              throw new APIError("FORBIDDEN", {
+              throw new APIError('FORBIDDEN', {
                 code: CAPTCHA_REQUIRED,
-                message: "Additional verification required. Complete the check, then submit again.",
-              });
+                message:
+                  'Additional verification required. Complete the check, then submit again.',
+              })
             }
           }),
         },
@@ -113,13 +119,16 @@ export function riskCaptcha({
         {
           matcher: (ctx) => matches(ctx.path),
           handler: createAuthMiddleware(async (ctx) => {
-            const returned = ctx.context.returned;
-            if (returned instanceof APIError && returned.body?.code !== CAPTCHA_REQUIRED) {
-              bucket(clientKey(ctx.headers)).failures += 1;
+            const returned = ctx.context.returned
+            if (
+              returned instanceof APIError &&
+              returned.body?.code !== CAPTCHA_REQUIRED
+            ) {
+              bucket(clientKey(ctx.headers)).failures += 1
             }
           }),
         },
       ],
     },
-  } satisfies BetterAuthPlugin;
+  } satisfies BetterAuthPlugin
 }

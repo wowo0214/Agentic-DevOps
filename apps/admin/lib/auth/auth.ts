@@ -2,17 +2,19 @@ import { betterAuth } from 'better-auth'
 import { nextCookies } from 'better-auth/next-js'
 import { anonymous, genericOAuth, slack } from 'better-auth/plugins'
 import { admin } from 'better-auth/plugins/admin'
-import { riskCaptcha } from './risk-captcha'
 import { Pool } from 'pg'
-import { passwordResetEmail } from '@repo/ui/emails/password-reset'
-import { emailOTPWithPassword } from './email-otp'
 import { emailVerification } from '@repo/ui/emails/email-verification'
+import { passwordResetEmail } from '@repo/ui/emails/password-reset'
 import { sendEmail } from '../resend'
+import { emailOTPWithPassword } from './email-otp'
+import { riskCaptcha } from './risk-captcha'
 
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim()
 const turnstileSecretKey = process.env.TURNSTILE_SECRET_KEY?.trim()
 if (Boolean(turnstileSiteKey) !== Boolean(turnstileSecretKey)) {
-  throw new Error('Configure both NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY.')
+  throw new Error(
+    'Configure both NEXT_PUBLIC_TURNSTILE_SITE_KEY and TURNSTILE_SECRET_KEY.',
+  )
 }
 
 export const database = new Pool({
@@ -20,6 +22,12 @@ export const database = new Pool({
   // Keep connections warm: reconnecting to a remote Neon host costs several round trips (TLS + auth).
   idleTimeoutMillis: 5 * 60_000,
   keepAlive: true,
+})
+
+// The server (Neon) may drop an idle connection. pg reports that on the pool; without a listener it becomes an
+// uncaught exception. The pool discards the dead client and opens a new one on the next query.
+database.on('error', (error) => {
+  console.error('Postgres idle client error', error.message)
 })
 
 export const auth = betterAuth({
@@ -35,7 +43,13 @@ export const auth = betterAuth({
         // Roles are decided here, never by the client: anonymous sign-in is `guest`, every other sign-up is `user`.
         // `admin` is only granted afterwards by an existing administrator.
         before: async (user) => ({
-          data: { ...user, role: (user as { isAnonymous?: boolean | null }).isAnonymous === true ? 'guest' : 'user' },
+          data: {
+            ...user,
+            role:
+              (user as { isAnonymous?: boolean | null }).isAnonymous === true
+                ? 'guest'
+                : 'user',
+          },
         }),
       },
     },

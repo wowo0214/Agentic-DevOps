@@ -51,6 +51,7 @@
     "@repo/scripts": "workspace:*",
     "@repo/vite-config": "workspace:*",
     "@tailwindcss/turbopack": "^4.3.3",
+    "@types/bun": "1.4",
     "@types/node": "^20.19.43",
     "@types/pg": "^8.23.1",
     "@types/react": "catalog:",

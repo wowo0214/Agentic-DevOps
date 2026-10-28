@@ -24,6 +24,10 @@
       "model": "message",
       "namespace": "public"
     },
+    "message_attachment": {
+      "model": "messageAttachment",
+      "namespace": "public"
+    },
     "permission": {
       "model": "permission",
       "namespace": "public"
@@ -569,6 +573,120 @@
               },
               "namespaceId": "public",
               "table": "message"
+            }
+          },
+          "messageAttachment": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "fileName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "messageId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "mimeType": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "size": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "uploaderId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "message": {
+                "cardinality": "N:1",
+                "nullable": true,
+                "on": {
+                  "localFields": [
+                    "messageId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "message",
+                  "namespace": "public"
+                }
+              },
+              "uploader": {
+                "cardinality": "N:1",
+                "nullable": false,
+                "on": {
+                  "localFields": [
+                    "uploaderId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "user",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "created_at"
+                },
+                "fileName": {
+                  "column": "file_name"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "messageId": {
+                  "column": "message_id"
+                },
+                "mimeType": {
+                  "column": "mime_type"
+                },
+                "size": {
+                  "column": "size"
+                },
+                "uploaderId": {
+                  "column": "uploader_id"
+                }
+              },
+              "namespaceId": "public",
+              "table": "message_attachment"
             }
           },
           "permission": {
@@ -1742,6 +1860,117 @@
                 }
               ]
             },
+            "message_attachment": {
+              "columns": {
+                "created_at": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "dataType": "pg/timestamptz",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nullable": false
+                },
+                "file_name": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "message_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": true
+                },
+                "mime_type": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                },
+                "size": {
+                  "codecId": "pg/int4@1",
+                  "dataType": "pg/int4",
+                  "nullable": false
+                },
+                "uploader_id": {
+                  "codecId": "pg/text@1",
+                  "dataType": "pg/text",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [
+                {
+                  "index": {
+                    "name": "message_attachment_message_id_idx_8a7ff1ba"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "message_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "message_attachment"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "message"
+                  }
+                },
+                {
+                  "index": {
+                    "name": "message_attachment_uploader_id_idx_7e6af2c2"
+                  },
+                  "onDelete": "restrict",
+                  "onUpdate": "cascade",
+                  "source": {
+                    "columns": [
+                      "uploader_id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "message_attachment"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "message_id"
+                  ],
+                  "name": "message_attachment_message_id_idx_8a7ff1ba",
+                  "prefix": "message_attachment_message_id_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "uploader_id"
+                  ],
+                  "name": "message_attachment_uploader_id_idx_7e6af2c2",
+                  "prefix": "message_attachment_uploader_id_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "permission": {
               "columns": {
                 "code": {
@@ -2100,10 +2329,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d2631dc71521defd432b76ae003227c3303deb9f37fb898c35dbb2ee74ecfee0"
+    "storageHash": "8448c46f7837cc158790645be0e1d06217f69fcbd2bd9e262e3acbe06b1a6fa0"
   },
   "execution": {
-    "executionHash": "651c5ebfab073f95af64c385c22f03489a7dc6618e180d8c7e3bffbf12459aaf",
+    "executionHash": "f001f5b4ed7e914cbcdb8f60cd3356987dfeb2769d3d71346a3b03937efaf5ab",
     "mutations": {
       "defaults": [
         {
@@ -2124,6 +2353,17 @@
           },
           "ref": {
             "entry": "message",
+            "field": "id",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "uuidv4",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "message_attachment",
             "field": "id",
             "namespace": "public"
           }

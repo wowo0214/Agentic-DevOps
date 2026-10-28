@@ -23,3 +23,10 @@ plans
 CLAUDE.md
 # Dev-only test pages (not committed)
 apps/admin/app/claude
+
+# Local docker service data
+docker/*/data/*
+!docker/*/data/.gitkeep
+
+# Chat attachments stored on local disk
+.uploads/

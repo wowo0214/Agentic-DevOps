@@ -1,12 +1,18 @@
-"use client"
+'use client'
 
+import {
+  DotsThreeOutlineIcon,
+  FolderIcon,
+  ShareFatIcon,
+  TrashIcon,
+} from '@phosphor-icons/react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@repo/ui/dropdown-menu"
+} from '@repo/ui/dropdown-menu'
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,8 +21,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@repo/ui/sidebar"
-import { DotsThreeOutlineIcon, FolderIcon, ShareFatIcon, TrashIcon } from "@phosphor-icons/react"
+} from '@repo/ui/sidebar'
 
 export function NavProjects({
   projects,
@@ -47,29 +52,25 @@ export function NavProjects({
                   />
                 }
               >
-                <DotsThreeOutlineIcon
-                />
+                <DotsThreeOutlineIcon />
                 <span className="sr-only">More</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-fit"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
+                side={isMobile ? 'bottom' : 'right'}
+                align={isMobile ? 'end' : 'start'}
               >
                 <DropdownMenuItem>
-                  <FolderIcon
-                  />
+                  <FolderIcon />
                   <span>View Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <ShareFatIcon
-                  />
+                  <ShareFatIcon />
                   <span>Share Project</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem variant="destructive">
-                  <TrashIcon
-                  />
+                  <TrashIcon />
                   <span>Delete Project</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>

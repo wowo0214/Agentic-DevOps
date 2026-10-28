@@ -1,12 +1,12 @@
-"use client"
+'use client'
 
-import * as React from "react"
-
+import { CaretRightIcon, CheckIcon } from '@phosphor-icons/react'
+import * as React from 'react'
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@repo/ui/collapsible"
+} from '@repo/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -15,8 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarSeparator,
-} from "@repo/ui/sidebar"
-import { CaretRightIcon, CheckIcon } from "@phosphor-icons/react"
+} from '@repo/ui/sidebar'
 
 export function Calendars({
   calendars,
@@ -39,7 +38,7 @@ export function Calendars({
                 className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                 render={<CollapsibleTrigger />}
               >
-                {calendar.name}{" "}
+                {calendar.name}{' '}
                 <CaretRightIcon className="ml-auto transition-transform group-data-open/collapsible:rotate-90" />
               </SidebarGroupLabel>
               <CollapsibleContent>

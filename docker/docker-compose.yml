@@ -1,0 +1,28 @@
+# Local development services. Run from the repo root:
+#   docker compose -f docker/docker-compose.yml up -d
+#   docker compose -f docker/docker-compose.yml down
+name: devops-turbo
+
+services:
+  redis:
+    image: redis:8-alpine
+    container_name: devops-turbo-redis
+    restart: unless-stopped
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./redis/data:/data
+
+  # Redis GUI
+  redisinsight:
+    image: redis/redisinsight:3.8
+    container_name: devops-turbo-redisinsight
+    restart: unless-stopped
+    depends_on:
+      - redis
+    ports:
+      - "127.0.0.1:5540:5540"
+    volumes:
+      - ./redisinsight/data:/data

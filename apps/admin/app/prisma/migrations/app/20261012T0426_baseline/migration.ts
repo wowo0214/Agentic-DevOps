@@ -1,10 +1,17 @@
 #!/usr/bin/env -S node
-import type { Contract as End } from '../../snapshots/e27869d6512e402ca7d95b69d2336ed5a0acad13b1819ac37a8f51b6d38095a0/contract';
-import endContract from '../../snapshots/e27869d6512e402ca7d95b69d2336ed5a0acad13b1819ac37a8f51b6d38095a0/contract.json' with { type: 'json' };
-import { Migration, MigrationCLI, col, fn, lit, primaryKey } from '@prisma/orm-postgres/migration';
+import {
+  Migration,
+  MigrationCLI,
+  col,
+  fn,
+  lit,
+  primaryKey,
+} from '@prisma/orm-postgres/migration'
+import endContract from '../../snapshots/e27869d6512e402ca7d95b69d2336ed5a0acad13b1819ac37a8f51b6d38095a0/contract.json' with { type: 'json' }
+import type { Contract as End } from '../../snapshots/e27869d6512e402ca7d95b69d2336ed5a0acad13b1819ac37a8f51b6d38095a0/contract'
 
 export default class M extends Migration<never, End> {
-  override readonly endContractJson = endContract;
+  override readonly endContractJson = endContract
 
   override get operations() {
     return [
@@ -22,7 +29,9 @@ export default class M extends Migration<never, End> {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 64 } },
           }),
-          col('finished_at', 'timestamptz', { codecRef: { codecId: 'pg/timestamptz-string@1' } }),
+          col('finished_at', 'timestamptz', {
+            codecRef: { codecId: 'pg/timestamptz-string@1' },
+          }),
           col('id', 'character varying(36)', {
             notNull: true,
             codecRef: { codecId: 'sql/varchar@1', typeParams: { length: 36 } },
@@ -51,16 +60,25 @@ export default class M extends Migration<never, End> {
           col('accessTokenExpiresAt', 'timestamptz', {
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
-          col('accountId', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('accountId', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('createdAt', 'timestamptz', {
             notNull: true,
             default: fn('now()'),
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
-          col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('idToken', 'text', { codecRef: { codecId: 'pg/text@1' } }),
           col('password', 'text', { codecRef: { codecId: 'pg/text@1' } }),
-          col('providerId', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('providerId', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('refreshToken', 'text', { codecRef: { codecId: 'pg/text@1' } }),
           col('refreshTokenExpiresAt', 'timestamptz', {
             codecRef: { codecId: 'pg/timestamptz-string@1' },
@@ -70,7 +88,10 @@ export default class M extends Migration<never, End> {
             notNull: true,
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
-          col('userId', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('userId', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
         ],
         constraints: [primaryKey(['id'], { name: 'account_pkey' })],
       }),
@@ -87,15 +108,24 @@ export default class M extends Migration<never, End> {
             notNull: true,
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
-          col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('ipAddress', 'text', { codecRef: { codecId: 'pg/text@1' } }),
-          col('token', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('token', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('updatedAt', 'timestamptz', {
             notNull: true,
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
           col('userAgent', 'text', { codecRef: { codecId: 'pg/text@1' } }),
-          col('userId', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('userId', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
         ],
         constraints: [primaryKey(['id'], { name: 'session_pkey' })],
       }),
@@ -108,11 +138,23 @@ export default class M extends Migration<never, End> {
             default: fn('now()'),
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
-          col('email', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('emailVerified', 'bool', { notNull: true, codecRef: { codecId: 'pg/bool@1' } }),
-          col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('email', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('emailVerified', 'bool', {
+            notNull: true,
+            codecRef: { codecId: 'pg/bool@1' },
+          }),
+          col('id', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('image', 'text', { codecRef: { codecId: 'pg/text@1' } }),
-          col('name', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('name', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('updatedAt', 'timestamptz', {
             notNull: true,
             default: fn('now()'),
@@ -134,14 +176,23 @@ export default class M extends Migration<never, End> {
             notNull: true,
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
-          col('id', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
-          col('identifier', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('id', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
+          col('identifier', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
           col('updatedAt', 'timestamptz', {
             notNull: true,
             default: fn('now()'),
             codecRef: { codecId: 'pg/timestamptz-string@1' },
           }),
-          col('value', 'text', { notNull: true, codecRef: { codecId: 'pg/text@1' } }),
+          col('value', 'text', {
+            notNull: true,
+            codecRef: { codecId: 'pg/text@1' },
+          }),
         ],
         constraints: [primaryKey(['id'], { name: 'verification_pkey' })],
       }),
@@ -195,8 +246,8 @@ export default class M extends Migration<never, End> {
           onDelete: 'cascade',
         },
       }),
-    ];
+    ]
   }
 }
 
-MigrationCLI.run(import.meta.url, M);
+MigrationCLI.run(import.meta.url, M)
