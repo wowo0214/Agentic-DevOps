@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import * as React from "react"
-
+import { CaretUpDownIcon, PlusIcon } from '@phosphor-icons/react'
+import * as React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,14 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@repo/ui/dropdown-menu"
+} from '@repo/ui/dropdown-menu'
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@repo/ui/sidebar"
-import { CaretUpDownIcon, PlusIcon } from "@phosphor-icons/react"
+} from '@repo/ui/sidebar'
 
 export function TeamSwitcher({
   teams,
@@ -58,7 +57,7 @@ export function TeamSwitcher({
           <DropdownMenuContent
             className="w-fit"
             align="start"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}
           >
             <DropdownMenuGroup>

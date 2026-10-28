@@ -1,10 +1,10 @@
-import type { ReactNode } from 'react'
-import { Suspense } from 'react'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
-import { SidebarProvider, SidebarTrigger } from '@repo/ui/sidebar'
+import { Suspense } from 'react'
 import { AppSidebar } from '@/components/app-sidebar'
 import { SidebarNavigation } from '@/components/sidebar/sidebar-navigation'
 import { requireSession } from '@/lib/require-session'
+import { SidebarProvider, SidebarTrigger } from '@repo/ui/sidebar'
+import type { ReactNode } from 'react'
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (

@@ -1,14 +1,10 @@
-import * as React from "react"
-
-import { Calendar } from "@repo/ui/calendar"
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-} from "@repo/ui/sidebar"
+import * as React from 'react'
+import { Calendar } from '@repo/ui/calendar'
+import { SidebarGroup, SidebarGroupContent } from '@repo/ui/sidebar'
 
 export function DatePicker() {
   const [date, setDate] = React.useState<Date | undefined>(
-    new Date(new Date().getFullYear(), new Date().getMonth(), 12)
+    new Date(new Date().getFullYear(), new Date().getMonth(), 12),
   )
   return (
     <SidebarGroup className="px-0">

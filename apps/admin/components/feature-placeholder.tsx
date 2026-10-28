@@ -1,8 +1,14 @@
-import type { PermissionCode } from '@/lib/permissions/catalog'
 import { requirePagePermission } from '@/lib/permissions/server'
 import { requireSession } from '@/lib/require-session'
+import type { PermissionCode } from '@/lib/permissions/catalog'
 
-export async function FeaturePlaceholder({ title, permission }: { title: string; permission: PermissionCode }) {
+export async function FeaturePlaceholder({
+  title,
+  permission,
+}: {
+  title: string
+  permission: PermissionCode
+}) {
   const { session } = await requireSession()
   await requirePagePermission(session.user, permission)
 

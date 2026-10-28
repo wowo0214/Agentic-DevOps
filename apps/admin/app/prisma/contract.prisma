@@ -163,3 +163,20 @@ model Message {
   @@check(expression: "length(btrim(client_message_id)) > 0", name: "message_client_id_not_empty")
   @@map("message")
 }
+
+// messageId stays null until the file is attached to a sent message.
+model MessageAttachment {
+  id         String            @id @default(uuid())
+  messageId  String?           @map("message_id")
+  uploaderId String            @map("uploader_id")
+  fileName   String            @map("file_name")
+  mimeType   String            @map("mime_type")
+  size       Int
+  createdAt  TimestamptzString @default(now()) @map("created_at")
+  message    Message?          @relation(fields: [messageId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  uploader   User              @relation(fields: [uploaderId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+
+  @@index([messageId])
+  @@index([uploaderId])
+  @@map("message_attachment")
+}

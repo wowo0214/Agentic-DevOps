@@ -59,6 +59,7 @@
     "@fontsource-variable/inter": "^5.3.0",
     "@marsidev/react-turnstile": "^1.6.3",
     "@phosphor-icons/react": "^2.1.10",
+    "@shadcn/react": "^0.3.1",
     "@swc/helpers": "0.5.23",
     "@tanstack/react-form": "^1.33.5",
     "bowser": "^2.14.1",

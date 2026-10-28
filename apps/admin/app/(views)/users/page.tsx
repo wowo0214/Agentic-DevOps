@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import {
   UserTable,
   type User,
-} from '@/app/(admin)/users/_components/user-table'
+} from '@/app/(views)/users/_components/user-table'
 import { auth } from '@/lib/auth/auth'
 import { requirePagePermission } from '@/lib/permissions/server'
 import { requireSession } from '@/lib/require-session'
@@ -79,9 +79,7 @@ async function UsersPageContent() {
   return (
     <div className="w-full p-4 md:p-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">
-          管理员管理
-        </h1>
+        <h1 className="text-2xl font-semibold tracking-tight">管理员管理</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           查看用户账号及封禁状态，每页显示 20 位用户。
         </p>

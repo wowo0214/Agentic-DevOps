@@ -1,7 +1,20 @@
 import { getSessionCookie } from 'better-auth/cookies'
 import { NextResponse, type NextRequest } from 'next/server'
+import { R } from '@repo/http-contract'
+
+// Other sites allowed to send writes to this server; add an origin here by hand when one is needed.
+const TRUSTED_ORIGINS: string[] = []
+const READ_METHODS = ['GET', 'HEAD', 'OPTIONS']
 
 export function proxy(request: NextRequest) {
+  // A write must come from this site's own pages or a trusted origin (CSRF).
+  const allowed = [request.nextUrl.origin, ...TRUSTED_ORIGINS]
+  if (
+    !READ_METHODS.includes(request.method) &&
+    !allowed.includes(request.headers.get('origin') ?? '')
+  )
+    return R.error('请求来源无效', 403)
+
   const returnTo = request.nextUrl.pathname + request.nextUrl.search
 
   // Without cookie, deny access.
