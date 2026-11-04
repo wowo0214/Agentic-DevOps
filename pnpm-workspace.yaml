@@ -1,0 +1,26 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalog:
+  react: ^19
+  react-dom: ^19
+  '@types/react': ^19
+  '@types/react-dom': ^19
+  typescript: ^7
+
+catalogs:
+  testing:
+    vitest: ^5
+  ui:
+    tailwindcss: ^4
+
+patchedDependencies:
+  next@16.4.0: patches/next@16.4.0.patch
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+  unrs-resolver: true
+  workerd: true

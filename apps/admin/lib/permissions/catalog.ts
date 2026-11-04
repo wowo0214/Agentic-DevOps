@@ -1,5 +1,5 @@
 // Source of truth for permission codes and the default role grants.
-// `bun scripts/sync-permissions.ts` upserts this into permission / role_permission; runtime checks only read the database.
+// `pnpm permissions:sync` upserts this into permission / role_permission; runtime checks only read the database.
 
 export const PERMISSIONS = {
   'dashboard:read': '查看工作台',

@@ -1,6 +1,6 @@
 # Browser E2E
 
-中央浏览器测试包。当前实现 TesterArmy/e2e + DeepSeek 的 link-admin 游客登录/退出、管理员邮箱密码登录/退出、GitHub 账号选择登录三个用例；Playwright Test 后续按实际需求加入。
+中央浏览器测试包。当前实现 TesterArmy/e2e + DeepSeek 的 admin 游客登录/退出、管理员邮箱密码登录/退出、GitHub 账号选择登录三个用例；Playwright Test 后续按实际需求加入。
 
 ## 目录
 
@@ -10,7 +10,7 @@ shared/env.ts                  # 加载测试包环境变量
 shared/apps.ts                 # 应用 ID、地址、Agent 页面上下文
 config/agent.ts                   # 按应用生成配置和测试匹配路径
 scripts/run-agent.ts              # 选择应用、串行批量执行、汇总退出状态
-__tests__/link-admin/agent/
+__tests__/admin/agent/
   guest-auth.e2e.ts
 ```
 
@@ -18,9 +18,9 @@ __tests__/link-admin/agent/
 
 ## 环境
 
-支持原生 Windows；WSL 可选。依赖统一由 Bun 管理；`e2e` CLI 暂不支持 Bun runtime，因此测试脚本通过 Vite+ 使用仓库要求的 Node.js 24.20+。不要跨操作系统共享 `node_modules`。
+支持原生 Windows；WSL 可选。依赖统一由 pnpm 管理，运行时使用仓库要求的 Node.js 26.13+。不要跨操作系统共享 `node_modules`。
 
-在 `.env` 中填写密钥和 `LINK_ADMIN_E2E_URL`，使用 `.env.example` 作为配置示例。登录账号默认使用 `admin@next.com`，密码通过 `E2E_USER_ADMIN_PASSWORD` 设置；可用 `E2E_USER_ADMIN_USERNAME` 覆盖邮箱。密码由测试框架的 credentials 机制填入和脱敏，不要写入测试源码或 Agent 指令。应用脚本通过 `run-agent.ts` 设置 `E2E_APP=link-admin`，只发现该应用命名空间内的测试。
+在 `.env` 中填写密钥和 `ADMIN_E2E_URL`，使用 `.env.example` 作为配置示例。登录账号默认使用 `admin@next.com`，密码通过 `E2E_USER_ADMIN_PASSWORD` 设置；可用 `E2E_USER_ADMIN_USERNAME` 覆盖邮箱。密码由测试框架的 credentials 机制填入和脱敏，不要写入测试源码或 Agent 指令。应用脚本通过 `run-agent.ts` 设置 `E2E_APP=admin`，只发现该应用命名空间内的测试。
 
 必须指定应用及其专属地址；地址缺失、空值或非法时立即报错。不再提供直接运行模式，不读取 `E2E_APP_URL`，不回退到 localhost。私有环境文件中已有的 `E2E_APP_URL` 可自行删除。
 
@@ -36,16 +36,16 @@ Vitest 单元与集成测试保留在所属模块，通过支持该框架的编�
 
 ```sh
 # 只发现测试，不打开浏览器、不调用模型
-bun run --filter @repo/e2e test:agent:list
+pnpm --filter @repo/e2e test:agent:list
 
 # 中央选择一个应用
-bun run --filter @repo/e2e test:agent link-admin --headed --no-cache
+pnpm --filter @repo/e2e test:agent admin --headed --no-cache
 
-# 中央批量执行所有已注册应用，目前只有 link-admin
-bun run --filter @repo/e2e test:agent:all
+# 中央批量执行所有已注册应用，目前只有 admin
+pnpm --filter @repo/e2e test:agent:all
 
 # 由应用 package.json 约束测试范围
-bun run --filter link-admin test:agent
+pnpm --filter admin test:agent
 ```
 
 在 `packages/e2e` 中安装 Agent Web 引擎使用的 Chromium：
@@ -79,7 +79,7 @@ vpr test:agent:name "管理员" --list
 
 `test:agent:file` 使用原生文件筛选，请传入文件名；省略文件参数会运行应用的全部测试。`test:agent:name` 使用原生 `--grep`，必须传入正则表达式；匹配的是 describe 层级和测试标题拼接后的完整名称，可匹配 test/it 用例或一组 describe。`^...$` 可用于完整名称匹配，不匹配源码函数名。
 
-两个筛选入口默认无界面，追加 `--headed` 即可显示浏览器。所有筛选仅作用于 link-admin，不改变应用地址。
+两个筛选入口默认无界面，追加 `--headed` 即可显示浏览器。所有筛选仅作用于 admin，不改变应用地址。
 
 `test:agent` 的第一个参数是应用 ID 或 `all`；未知 ID 立即报错。`--list` 转成原生测试发现命令，其他参数直接传给 e2e CLI。批量执行采用串行，任一应用失败则最终非零退出，不重新实现断言、重试或分片。
 
@@ -88,7 +88,7 @@ vpr test:agent:name "管理员" --list
 Run only the registration flow from the repository root:
 
 ```sh
-bun run --filter @repo/e2e test:agent link-admin otp-registration.e2e.ts --headed --no-cache
+pnpm --filter @repo/e2e test:agent admin otp-registration.e2e.ts --headed --no-cache
 ```
 
 Configure `RESEND_API_KEY` in `packages/e2e/.env` with permission to list and read sent emails in the same Resend account used by Admin. The key is used only in the runner, never passed to the browser or agent. No Gmail integration is needed.
