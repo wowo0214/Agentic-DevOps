@@ -23,8 +23,8 @@ resolve against the correct origin. Restart the development server after editing
 environment variables. Keep `.env.local` out of Git.
 
 From the monorepo root, run `vpr dev:docs` for development,
-`bun run --filter docs check-types` for type checking, and
-`bun run --filter docs build` for a production build.
+`pnpm --filter docs check-types` for type checking, and
+`pnpm --filter docs build` for a production build.
 
 ## Explore
 

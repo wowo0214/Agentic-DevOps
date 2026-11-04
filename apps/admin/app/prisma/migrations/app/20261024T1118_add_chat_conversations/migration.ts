@@ -1,4 +1,4 @@
-#!/usr/bin/env -S bun
+#!/usr/bin/env -S node
 import {
   Migration,
   MigrationCLI,

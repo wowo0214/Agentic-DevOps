@@ -26,12 +26,12 @@
     "./styles": "./dist/styles.css"
   },
   "scripts": {
-    "build": "bun --bun tsdown",
-    "dev": "bun --bun tsdown --watch",
-    "check-types": "bun --bun tsc --noEmit",
-    "lint": "bun --bun eslint src/",
-    "test": "bun --bun jest",
-    "test:registry": "bun run build && bun test registry-paths.test.mjs"
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src/",
+    "test": "jest",
+    "test:registry": "pnpm run build && node --test registry-paths.test.mjs"
   },
   "devDependencies": {
     "@jest/globals": "30.5.1",

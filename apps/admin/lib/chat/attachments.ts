@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
+import { openAsBlob } from 'node:fs'
+import { mkdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { file as storedFile, write } from 'bun'
 import { db } from '@/app/prisma/db'
 import { R } from '@repo/http-contract'
 import { requireMember } from './server'
@@ -21,7 +22,11 @@ export async function saveAttachment(userId: string, upload: File) {
     type: upload.type || 'application/octet-stream',
     size: upload.size,
   }
-  await write(join(DIR, attachment.id), upload)
+  await mkdir(DIR, { recursive: true })
+  await writeFile(
+    join(DIR, attachment.id),
+    Buffer.from(await upload.arrayBuffer()),
+  )
   await db.orm.public.messageAttachment.create({
     id: attachment.id,
     uploaderId: userId,
@@ -47,7 +52,7 @@ export async function attachmentResponse(userId: string, id: string) {
   const inline = /^image\/(png|jpeg|gif|webp)$/.test(attachment.mimeType)
   const name = encodeURIComponent(attachment.fileName)
   // A file stream is not a JSON envelope, so this is a plain Response rather than R.
-  return new Response(storedFile(join(DIR, attachment.id)), {
+  return new Response(await openAsBlob(join(DIR, attachment.id)), {
     headers: {
       'Content-Type': attachment.mimeType,
       'Content-Disposition': `${inline ? 'inline' : 'attachment'}; filename*=UTF-8''${name}`,
