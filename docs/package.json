@@ -5,9 +5,7 @@
   "scripts": {
     "build": "next build --webpack",
     "dev": "next dev",
-    "start": "next start",
-    "check-types": "next typegen && tsc --noEmit",
-    "types:check": "pnpm run check-types"
+    "start": "next start"
   },
   "dependencies": {
     "@ai-sdk/react": "^4.0.0",

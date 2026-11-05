@@ -18,10 +18,14 @@
       "dependsOn": ["^build"]
     },
     "lint": {
-      "dependsOn": ["^build", "^lint"]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vite.config.ts"]
     },
-    "check-types": {
-      "dependsOn": ["^build", "^check-types"]
+    "fmt:check": {
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vite.config.ts"]
+    },
+    "fmt": {
+      "cache": false
     },
     "dev": {
       "dependsOn": ["^build"],
