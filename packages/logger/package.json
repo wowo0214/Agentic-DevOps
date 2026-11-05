@@ -22,19 +22,18 @@
     }
   },
   "scripts": {
-    "build": "bun --bun bunchee",
-    "dev": "bun --bun bunchee --watch",
-    "lint": "bun --bun eslint src/",
-    "check-types": "bun --bun tsc --noEmit",
-    "test": "bun --bun jest"
+    "build": "bunchee",
+    "dev": "bunchee --watch",
+    "lint": "vp lint",
+    "check": "pnpm run lint",
+    "test": "jest"
   },
   "devDependencies": {
     "@jest/globals": "30.5.1",
-    "@repo/typescript-config": "workspace:*",
+    "@repo/config-ts": "workspace:*",
     "@types/node": "26.4.1",
     "@typescript/native": "npm:typescript@7.0.2",
     "bunchee": "7.0.1",
-    "eslint": "10.9.1",
     "jest": "30.5.1",
     "typescript": "catalog:"
   }

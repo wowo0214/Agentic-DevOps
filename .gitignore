@@ -2,7 +2,8 @@
 .DS_Store
 node_modules
 .vscode
-.zed
+.zed/*
+!.zed/settings.json
 .turbo
 *.log
 .next
@@ -11,8 +12,8 @@ dist-ssr
 *.local
 .env
 .cache
-server/dist
-public/dist
+*.tsbuildinfo
+.devtools
 
 # Internal Group Project Plans 
 plans
@@ -21,9 +22,6 @@ plans
 .agents/
 .claude/
 CLAUDE.md
-# Dev-only test pages (not committed)
-apps/admin/app/claude
-
 # Local docker service data
 docker/*/data/*
 !docker/*/data/.gitkeep

@@ -1,5 +1,5 @@
 import { Pool } from 'pg'
-import { PERMISSIONS, ROLE_PERMISSIONS } from '../lib/permissions/catalog'
+import { PERMISSIONS, ROLE_PERMISSIONS } from '../lib/permissions/catalog.ts'
 
 // Idempotent: makes permission / role_permission match the catalog for the roles it defines.
 const pool = new Pool({ connectionString: process.env.DATABASE_URL })

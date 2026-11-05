@@ -26,19 +26,18 @@
     "./styles": "./dist/styles.css"
   },
   "scripts": {
-    "build": "bun --bun tsdown",
-    "dev": "bun --bun tsdown --watch",
-    "check-types": "bun --bun tsc --noEmit",
-    "lint": "bun --bun eslint src/",
-    "test": "bun --bun jest",
-    "test:registry": "bun run build && bun test registry-paths.test.mjs"
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "lint": "vp lint",
+    "check": "pnpm run lint",
+    "test": "jest",
+    "test:registry": "pnpm run build && node --test registry-paths.test.mjs"
   },
   "devDependencies": {
     "@jest/globals": "30.5.1",
-    "@repo/typescript-config": "workspace:*",
+    "@repo/config-ts": "workspace:*",
     "@types/node": "26.4.1",
     "@typescript/native": "npm:typescript@7.0.2",
-    "eslint": "10.9.1",
     "jest": "30.5.1",
     "tsdown": "0.23.1",
     "typescript": "catalog:"
