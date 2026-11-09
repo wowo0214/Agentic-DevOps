@@ -2,14 +2,14 @@
 
 ## 已实现
 
-- 中央浏览器测试包 `packages/e2e`，只注册当前使用的 `link-admin`。
+- 中央浏览器测试包 `packages/e2e`，只注册当前使用的 `admin`。
 - `shared/apps.ts` 是地址与应用 ID 的单一注册入口。
 - `shared/env.ts` 加载测试包环境；应用脚本只选择 scope，不读取应用 `.env`。
 - 单一根配置 `e2e.config.ts`，`config/agent.ts` 根据应用 ID 匹配 `__tests__/<app>/agent/**/*.e2e.ts`。
 - `scripts/run-agent.ts` 接收应用 ID 或 `all`，串行调用原生 runner，汇总退出码。应用脚本固定自己的 ID。
-- 现有游客流程原样迁移至 `__tests__/link-admin/agent/guest-auth.e2e.ts`。
-- 应用地址必须显式配置 `LINK_ADMIN_E2E_URL`；必须选择应用，不支持无应用 ID 的本地模式，不读取 `E2E_APP_URL`。缺失或无效时立即报错，不修改私有环境文件。
-- link-admin 提供 `test:agent:file <file>` 与 `test:agent:name <pattern>`，分别转发原生文件筛选和 `--grep`。名称匹配包含 describe 层级，所有筛选限制在应用命名空间内。
+- 现有游客流程原样迁移至 `__tests__/admin/agent/guest-auth.e2e.ts`。
+- 应用地址必须显式配置 `ADMIN_E2E_URL`；必须选择应用，不支持无应用 ID 的本地模式，不读取 `E2E_APP_URL`。缺失或无效时立即报错，不修改私有环境文件。
+- admin 提供 `test:agent:file <file>` 与 `test:agent:name <pattern>`，分别转发原生文件筛选和 `--grep`。名称匹配包含 describe 层级，所有筛选限制在应用命名空间内。
 
 ## 后续按需加入
 
@@ -25,7 +25,7 @@
 
 1. 在 `shared/apps.ts` 注册唯一 ID、环境地址与必要的 Agent 上下文。
 2. 创建 `__tests__/<app>/agent/` 并加入测试。
-3. 在应用 `package.json` 转发 `bun run --filter @repo/e2e test:agent <app>`。
+3. 在应用 `package.json` 转发 `pnpm --filter @repo/e2e test:agent <app>`。
 
 无需新增应用专属 Agent config；中央 `test:agent:all` 自动遍历注册表。各 runner 的 fixture、Page 和认证状态不强制共用。未来存在并行运行需求时，再按 runner/app/run 隔离产物并设置并发上限。
 
