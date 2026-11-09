@@ -33,14 +33,12 @@ export async function publishChatEvent(userIds: string[], message?: Message) {
   )
 }
 
-// Calls onEvent for this user's chat events; returns an unsubscribe function.
-// Event body: {"message": Message} for a new message, '' when only counts changed.
-export async function subscribeChatEvents(
-  userId: string,
-  onEvent: (payload: string) => void,
-) {
+type Listener = (payload: string) => void
+
+// Calls listener for this user's chat events; returns an unsubscribe function.
+export async function subscribeChatEvents(userId: string, listener: Listener) {
   const subscriber = await getSubscriber()
-  await subscriber.subscribe(channelOf(userId), onEvent)
+  await subscriber.subscribe(channelOf(userId), listener)
   return () =>
-    subscriber.unsubscribe(channelOf(userId), onEvent).catch(() => {})
+    subscriber.unsubscribe(channelOf(userId), listener).catch(() => {})
 }

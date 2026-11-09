@@ -1,12 +1,13 @@
 packages:
   - apps/*
   - packages/*
+  - docs
 
 catalog:
   react: ^19
   react-dom: ^19
-  '@types/react': ^19
-  '@types/react-dom': ^19
+  "@types/react": ^19
+  "@types/react-dom": ^19
   typescript: ^7
 
 catalogs:
@@ -15,12 +16,10 @@ catalogs:
   ui:
     tailwindcss: ^4
 
-patchedDependencies:
-  next@16.4.0: patches/next@16.4.0.patch
-
 allowBuilds:
-  '@parcel/watcher': true
-  '@swc/core': true
+  "@parcel/watcher": true
+  "@swc/core": true
+  better-sqlite3: true
   esbuild: true
   unrs-resolver: true
   workerd: true

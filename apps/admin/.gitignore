@@ -46,3 +46,6 @@ dist/
 
 # other
 sidebar-examples
+
+# Dev-only test pages (not committed)
+/app/claude

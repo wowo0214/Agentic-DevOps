@@ -1,0 +1,37 @@
+{
+  "name": "agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run --parallel \"/^dev:/\"",
+    "dev:next": "next dev --port 3001",
+    "dev:devtools": "npx @ai-sdk/devtools@latest",
+    "tui": "node --env-file=.env tui.ts",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "lint": "vp lint",
+    "fmt": "vp fmt",
+    "fmt:check": "vp fmt --check",
+    "check": "pnpm run lint && pnpm run fmt:check"
+  },
+  "dependencies": {
+    "@ai-sdk/react": "^4.0.166",
+    "@ai-sdk/tui": "^1.0.163",
+    "ai": "^7.0.162",
+    "mem0ai": "^3.3.1",
+    "next": "16.4.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "streamdown": "^2.7.1",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@ai-sdk/devtools": "^1.0.65",
+    "@repo/config-ts": "workspace:*",
+    "@types/node": "^26.6.4",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  }
+}

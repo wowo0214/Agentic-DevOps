@@ -19,6 +19,7 @@ import {
   useFetchOptions,
   useSignUpEmail,
 } from "@better-auth-ui/react";
+import type { AnyFormApi } from "@tanstack/react-form";
 import { useIsMutating, useQueryClient } from "@tanstack/react-query";
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -179,7 +180,7 @@ export function SignUp({
   const { mutateAsync: signUpEmail } = useSignUpEmail(authClient, {
     onError: (error) => {
       if (isEmailValidationError(error)) {
-        form.setErrorMap({
+        (form as AnyFormApi).setErrorMap({
           onServer: {
             fields: {
               email: createFormFieldError(localization.auth.invalidEmail),

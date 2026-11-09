@@ -10,18 +10,18 @@
     "test:agent": "pnpm --filter @repo/e2e test:agent -- admin --headed",
     "test:agent:file": "pnpm --filter @repo/e2e test:agent -- admin --headed",
     "test:agent:name": "pnpm --filter @repo/e2e test:agent -- admin --headed --grep",
-    "lint": "oxlint",
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check",
+    "lint": "vp lint",
+    "fmt": "vp fmt",
+    "fmt:check": "vp fmt --check",
     "check": "pnpm run lint && pnpm run fmt:check",
     "permissions:sync": "node --env-file-if-exists=.env.local --env-file-if-exists=.env scripts/sync-permissions.ts",
     "prisma:infer": "prisma contract infer --output ./app/prisma/contract.prisma",
-    "prisma:emit": "lowercase-prisma-models"
+    "prisma:emit": "node ../../scripts/lowercase-prisma-models.mjs"
   },
   "dependencies": {
     "@better-auth-ui/core": "^1.7.27",
     "@better-auth-ui/react": "^1.7.27",
-    "@better-auth/core": "1.7.15",
+    "@better-auth/core": "1.7.16",
     "@phosphor-icons/react": "^2.1.10",
     "@prisma/client": "^7.10.0",
     "@prisma/orm-postgres": "8.0.0-rc.17",
@@ -49,16 +49,13 @@
   },
   "devDependencies": {
     "@prisma/cli-engine": "0.7.0",
-    "@repo/scripts": "workspace:*",
-    "@repo/vite-config": "workspace:*",
+    "@repo/config-ts": "workspace:*",
     "@tailwindcss/turbopack": "^4.3.3",
     "@types/node": "^26.6.4",
     "@types/pg": "^8.23.1",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "babel-plugin-react-compiler": "1.0.0",
-    "oxfmt": "^0.72.0",
-    "oxlint": "^1.87.0",
     "prisma": "8.0.0-rc.22",
     "tailwindcss": "catalog:ui"
   }
