@@ -3,28 +3,32 @@
 This is a Next.js application generated with
 [Create Fumadocs](https://github.com/fuma-nama/fumadocs).
 
-From `apps/docs`, run the development server with the team's Vite+ script runner:
+From the monorepo root, build the shared dependencies and start Docs:
 
 ```bash
-vpr dev
+pnpm --filter @repo/http-contract build
+pnpm --filter docs dev
 ```
 
-Open http://localhost:3000 with your browser to see the result.
+Open http://localhost:3002 with your browser to see the result. The optional
+`docker/Caddyfile` exposes the same service at http://docs.localhost.
 
 ## AI chat and site configuration
 
-Copy `.env.example` to `.env.local` and set `OPENROUTER_API_KEY`.
-`OPENROUTER_MODEL` selects the model explicitly; the chat endpoint requires both
-values and does not select a paid model when configuration is missing.
-The example uses `nvidia/nemotron-3-ultra-550b-a55b:free`.
+Copy `docs/.env.example` to `docs/.env.local` and set `AI_GATEWAY_API_KEY`.
+The chat endpoint uses Vercel AI Gateway with
+`nvidia/nemotron-3.5-lightning-free` and searches the local documentation.
 
 Set `SITE_URL` to the site's actual URL in production so social preview images
 resolve against the correct origin. Restart the development server after editing
 environment variables. Keep `.env.local` out of Git.
 
-From the monorepo root, run `vpr dev:docs` for development,
-`pnpm --filter docs check-types` for type checking, and
-`pnpm --filter docs build` for a production build.
+From the monorepo root, run `pnpm exec turbo run build --filter=docs` for a
+production build, including shared dependencies and Next.js type checking.
+The root lint/format configuration currently excludes Docs.
+
+Turbopack development filesystem caching is disabled to work around the
+Next.js 16.4 HMR reload loop; production build caching remains unchanged.
 
 ## Explore
 

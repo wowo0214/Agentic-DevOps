@@ -54,6 +54,57 @@ body,
   gap: 1rem;
 }
 
+.docs-toc-clerk svg :is(path, line) {
+  stroke-width: 2;
+}
+
+#nd-sidebar [data-search-full] {
+  order: 1;
+}
+
+.docs-sidebar-hover {
+  isolation: isolate;
+}
+
+.docs-sidebar-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+  width: var(--docs-hover-width, 0px);
+  height: var(--docs-hover-height, 0px);
+  translate: var(--docs-hover-x, 0px) var(--docs-hover-y, 0px);
+  opacity: var(--docs-hover-opacity, 0);
+  border-radius: 0.5rem;
+  background: color-mix(in srgb, var(--color-fd-accent) 60%, transparent);
+  transition-property: var(--docs-hover-transition, opacity);
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#nd-sidebar.docs-sidebar-hover .overscroll-contain :is(a:not([data-active='true']), button):hover {
+  background-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-sidebar-hover::before {
+    transition: none;
+  }
+}
+
+div:has(> .docs-app-icon),
+.docs-app-icon,
+.docs-app-icon > svg {
+  width: 16px;
+  height: 16px;
+}
+
+.docs-app-icon {
+  display: block;
+}
+
 .docs-page-heading h1 {
   flex: 1;
   min-width: min(100%, 15rem);
@@ -329,18 +380,19 @@ div:has(> .docs-social-footer) {
 }
 
 #nd-page .prose figure.shiki {
-  background-color: color-mix(in srgb, var(--color-fd-secondary) 50%, transparent);
-  border-radius: 0.5rem;
+  font-size: 0.875em;
+  background-color: var(--color-fd-card);
+  border-radius: 0.75rem;
   box-shadow: none;
   margin-block: 24px;
 }
 
-/* Match Inkeep's code typography and preserve the scroll/copy primitives. */
+/* Inherit the block size without shrinking nested code again. */
 #nd-page .shiki > [role='region'] {
   --padding-right: 16px;
   padding-block: 0;
-  font-size: 14px;
-  line-height: 20px;
+  font-size: inherit;
+  line-height: 1.75;
 }
 
 #nd-page .shiki > .docs-code-viewport {
@@ -351,12 +403,65 @@ div:has(> .docs-social-footer) {
 #nd-page .shiki pre {
   width: auto;
   padding: 16px;
-  font-size: 14px;
-  line-height: 20px;
+  font-family: var(--blog-font-mono), ui-monospace, monospace;
+  font-size: inherit;
+  line-height: 1.75;
 }
 
 #nd-page .shiki pre > code {
   display: block;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#nd-page .shiki :is(code, span) {
+  font-style: normal !important;
+}
+
+#nd-page .prose :not(pre) > code {
+  border: 0;
+  border-radius: 0.25em;
+  padding: 0.1em 0.3em;
+  font-family: var(--blog-font-mono), ui-monospace, monospace;
+  font-size: 0.875em;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--color-fd-primary) 80%, var(--color-fd-foreground));
+  background-color: color-mix(in srgb, var(--color-fd-primary) 7%, transparent);
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+#nd-page .prose table {
+  width: 100%;
+  border: 0;
+  border-collapse: collapse;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--blog-font-mono), ui-monospace, monospace;
+  font-size: 0.875em;
+  line-height: 1.75;
+}
+
+#nd-page .prose :is(th, td) code {
+  font-size: inherit;
+}
+
+#nd-page .prose :is(thead, tbody, tr, th, td) {
+  background: transparent;
+}
+
+#nd-page .prose :is(th, td) {
+  border: 0;
+  border-bottom: 1px solid var(--color-fd-border);
+  padding: 0.875rem 1rem;
+  vertical-align: top;
+}
+
+#nd-page .prose th {
+  font-weight: 600;
+  text-align: start;
 }
 
 #nd-page .shiki .line {

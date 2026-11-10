@@ -1,0 +1,155 @@
+---
+title: FileStructure
+description: Monorepo 的目录结构、共享依赖与本地运行方式。
+---
+
+项目使用 pnpm workspace 管理依赖，使用 Turborepo 编排各应用和共享包的任务。应用放在 `apps`，公共代码放在 `packages`，文档站目前独立放在根目录的 `docs`。
+
+## 文件树
+
+下面列出主要目录，省略 `node_modules`、`.next`、`dist` 等依赖、缓存和构建产物。
+
+```text
+devops-turbo/
+├── .vite-hooks/
+│   └── pre-commit             # 提交前执行 vp staged
+├── apps/
+│   ├── admin/                 # 管理平台，默认端口 3000
+│   │   ├── app/               # 页面、API 路由及 Prisma 文件
+│   │   └── lib/               # 应用业务逻辑
+│   └── agent/                 # AI 应用，默认端口 3001
+│       ├── app/               # 页面与路由
+│       └── components/        # 应用专用组件
+├── packages/
+│   ├── ui/                    # 跨应用共用的 UI、认证组件及相关工具
+│   ├── http-contract/         # 统一 HTTP 响应格式
+│   ├── config-ts/             # 共享 TypeScript 配置
+│   ├── logger/                # 共享日志包
+│   └── e2e/                   # 端到端测试工具与运行脚本
+├── docs/                      # Fumadocs 文档站，默认端口 3002
+│   ├── app/
+│   │   ├── docs/              # /docs 下的页面渲染与布局
+│   │   └── blog/              # /blog 下的页面渲染与布局
+│   ├── content/
+│   │   ├── docs/              # 文档正文与 meta.json 导航配置
+│   │   │   ├── (home)/        # Docs 分区，括号目录不加入网址
+│   │   │   ├── admin/         # Admin 文档
+│   │   │   ├── agent/         # Agent 文档
+│   │   │   └── link/          # Link 文档
+│   │   └── blog/              # 博客正文
+│   ├── components/            # 文档站专用组件
+│   ├── lib/                   # 内容加载等文档站逻辑
+│   └── public/                # 静态资源
+├── docker/
+│   ├── Caddyfile              # 本机域名反向代理配置
+│   ├── docker-compose.yml     # 本地基础服务
+│   ├── redis/
+│   │   ├── redis.conf         # Redis 配置
+│   │   └── data/              # Redis 持久化数据
+│   └── redisinsight/
+│       └── data/              # RedisInsight 数据
+├── examples/                  # 示例内容
+├── plans/                     # 工作计划
+├── scripts/                   # 仓库维护脚本
+├── pnpm-workspace.yaml        # Workspace 范围与 catalog 版本
+├── pnpm-lock.yaml             # 依赖锁文件
+├── turbo.json                 # 任务依赖与缓存配置
+├── vite.config.ts             # 全仓库 lint、格式化和 staged 配置
+└── package.json               # 根目录命令与工具依赖
+```
+
+## apps 与 packages
+
+依赖方向是应用使用共享包：`apps → packages`。各应用在自己的 `package.json` 中通过 `workspace:*` 声明需要的包，再通过包名导入。
+
+例如，Admin 依赖 `@repo/ui` 和 `@repo/http-contract`，Agent 依赖 `@repo/ui`。共享包不应反过来依赖某个应用的业务代码，应用之间也不要直接导入彼此的源码。
+
+**公共组件应在 `packages/ui` 中实现和维护。** 多个应用需要同一个组件时，在共享包中修改，由应用统一使用。仅服务于单个应用的业务组件留在该应用中；提取为公共组件时，通过参数传入业务差异。
+
+`packages` 也承载非 UI 能力，例如统一响应、日志和 TypeScript 配置。Turborepo 的 `build` 使用 `^build`，先构建当前项目依赖的共享包，再构建项目自身。
+
+外部依赖的统一版本由 `pnpm-workspace.yaml` 中的 catalog 管理。例如 Docs 声明 `"next": "catalog:"`，从 catalog 读取 Next.js 版本。
+
+## 提交前校验
+
+`.vite-hooks/pre-commit` 在 Git 提交前执行 `vp staged`，按根目录 `vite.config.ts` 的 `staged` 配置处理暂存区中匹配的文件：
+
+- JS、JSX、TS、TSX：执行 `vp lint --fix` 和 `vp fmt`。
+- CSS、HTML：执行 `vp fmt`。
+
+校验失败会阻止本次提交，需要修复问题后重新提交。自动修复和格式化产生的改动也应检查确认。
+
+实际处理范围还受 lint 和 fmt 的忽略配置限制。当前 `docs/**` 被两者忽略，MDX 也没有对应的 staged 规则，因此提交检查通过不代表文档已经验证。
+
+## 统一 HTTP 响应
+
+仓库中的实际包名是 `http-contract`，导入名为 `@repo/http-contract`。它负责统一接口返回格式。
+
+```ts
+import { R } from '@repo/http-contract';
+
+return R.ok({ id: 'example' });
+```
+
+返回 HTTP 200，JSON 内容为：
+
+```json
+{
+  "code": 200,
+  "message": "操作成功",
+  "data": {
+    "id": "example"
+  }
+}
+```
+
+| 方法 | 用途 |
+| --- | --- |
+| `R.ok(data, message?)` | 查询或操作成功，HTTP 200 |
+| `R.created(data, message?)` | 创建成功，HTTP 201 |
+| `R.error(message, status?)` | 返回错误，状态码为 4xx 或 5xx，默认 500 |
+| `R.noContent()` | HTTP 204，不返回响应体 |
+| `R.resetContent()` | HTTP 205，不返回响应体 |
+
+JSON 响应中的 `code` 与 HTTP 状态码一致。`R.error` 的 `data` 为 `[]`；204 和 205 不使用 JSON 包装。新写的普通接口统一使用 `R`，SSE 等流式接口仍使用原生 `Response` 承载流。
+
+## Caddy 反向代理
+
+`docker/Caddyfile` 为本机开发服务提供域名入口：
+
+| 访问地址 | 转发目标 | 应用 |
+| --- | --- | --- |
+| `http://admin.localhost` | `127.0.0.1:3000` | Admin |
+| `http://agent.localhost` | `127.0.0.1:3001` | Agent |
+| `http://docs.localhost` | `127.0.0.1:3002` | Docs |
+
+Caddy 接收请求，再将请求转发给对应端口的应用。当前配置使用 HTTP，并通过 `bind 127.0.0.1` 限制为本机访问。
+
+Caddy 不负责启动 Next.js。开发服务由开发者启动，端口需要与反代配置保持一致。已安装 Caddy 时，可在仓库根目录运行：
+
+```sh
+caddy run --config docker/Caddyfile --adapter caddyfile
+```
+
+## Docker 本地服务
+
+`docker/docker-compose.yml` 当前启动 Redis 和 RedisInsight，为本地开发提供基础服务。
+
+| 服务 | 本机入口 | 用途 |
+| --- | --- | --- |
+| Redis | `127.0.0.1:6379` | 缓存、发布订阅等应用能力的基础服务 |
+| RedisInsight | `http://localhost:5540` | Redis 图形管理工具 |
+
+在仓库根目录执行：
+
+```sh
+# 启动基础服务
+docker compose -f docker/docker-compose.yml up -d
+
+# 停止并移除容器
+docker compose -f docker/docker-compose.yml down
+```
+
+Redis 配置从 `docker/redis/redis.conf` 只读挂载到容器，数据写入 `docker/redis/data`；RedisInsight 数据写入 `docker/redisinsight/data`。这些是宿主机目录挂载，执行 `down` 不会删除其中的数据。
+
+当前 Compose 没有包含 Caddy、Next.js 应用或 Postgres。Caddy 配置虽然放在 `docker` 目录，但按当前配置运行在本机；应用进程也在本机运行，通过本机映射端口连接 Docker 内的 Redis。

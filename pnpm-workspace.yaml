@@ -4,6 +4,7 @@ packages:
   - docs
 
 catalog:
+  next: 16.4.5
   react: ^19
   react-dom: ^19
   "@types/react": ^19

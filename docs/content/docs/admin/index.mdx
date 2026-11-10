@@ -1,0 +1,15 @@
+---
+title: Admin
+description: 基于 Next.js 的管理平台
+---
+
+Admin 是管理平台应用，代码位于 `apps/admin`。这里记录当前功能的实现机制、模块边界与开发接入方式。
+
+本节文件路径默认相对 Admin 应用根目录，命令也在该目录执行；`packages/` 开头的共享包路径相对仓库根目录。
+
+**应用框架：[Next.js](https://nextjs.org/docs)。**
+
+## 认证与权限
+
+- [登录与会话](/docs/admin/authentication/login)：登录方式、邮箱验证、密码找回与会话管理。
+- [权限控制](/docs/admin/authentication/permissions)：角色授权、资源范围，以及页面和接口的权限接入方式。

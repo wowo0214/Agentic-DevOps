@@ -1,0 +1,9 @@
+{
+  "title": "认证与权限",
+  "icon": "ShieldCheck",
+  "defaultOpen": false,
+  "pages": [
+    "login",
+    "permissions"
+  ]
+}

@@ -1,0 +1,22 @@
+.site-header { position: fixed; inset: 0 0 auto; z-index: 40; padding: 16px 48px; color: #252422; transition: padding .3s; }
+.site-header * { box-sizing: border-box; }
+.site-header a { color: inherit; text-decoration: none; }
+.site-header :is(a, button):focus-visible { outline: 2px solid #387eff; outline-offset: 4px; }
+.site-header-inner { max-width: 1344px; margin: auto; min-height: 64px; padding: 8px 0; display: flex; align-items: center; gap: 36px; border-radius: 61px; transition: padding .3s, background .3s, box-shadow .3s, backdrop-filter .3s; }
+.site-header[data-scrolled=true] { padding-block: 12px; }
+.site-header[data-scrolled=true] .site-header-inner { padding-inline: 16px; background: #ffffff99; backdrop-filter: blur(14px); box-shadow: 0 0 20px #d6dfec40, 4px 4px 20px #a7adb62e; outline: 1px solid #ffffff66; }
+.site-wordmark { display: inline-flex; align-items: center; gap: 10px; font-size: 24px; font-weight: 600; letter-spacing: -1px; white-space: nowrap; }
+.site-header nav { display: flex; align-items: center; gap: 28px; font-size: 14px; white-space: nowrap; }
+.site-header nav a, .site-github { display: inline-flex; align-items: center; gap: 6px; }
+.site-github { margin-left: auto; font-size: 14px; font-family: inherit; }
+.site-header nav a { transition: color .2s; }
+.site-header nav a:hover { color: #387eff; }
+@media (max-width: 767px) {
+  .site-header { padding: 8px 20px; }
+  .site-header-inner { gap: 16px; flex-wrap: wrap; }
+  .site-header[data-scrolled=true] { padding: 8px 12px; }
+  .site-wordmark { font-size: 21px; }
+  .site-header nav { gap: 16px; width: 100%; overflow-x: auto; }
+  .site-github { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .site-header, .site-header * { transition: none; } }

@@ -29,6 +29,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
       slots={{ toc: { provider: TOCProvider, main: DocsTOC, popover: TOCPopover } }}
       toc={page.data.toc}
       full={page.data.full}
+      footer={{ className: 'pb-6' }}
       tableOfContent={{ style: 'clerk', enabled: page.data.toc.length > 0 && !page.data.full }}
     >
       <header>

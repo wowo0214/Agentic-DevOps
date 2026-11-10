@@ -1,0 +1,14 @@
+http://admin.localhost {
+	bind 127.0.0.1
+	reverse_proxy 127.0.0.1:3000
+}
+
+http://agent.localhost {
+	bind 127.0.0.1
+	reverse_proxy 127.0.0.1:3001
+}
+
+http://docs.localhost {
+	bind 127.0.0.1
+	reverse_proxy 127.0.0.1:3002
+}

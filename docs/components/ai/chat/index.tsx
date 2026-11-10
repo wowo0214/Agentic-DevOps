@@ -388,7 +388,6 @@ export function AIChatTrigger({ className }: { className?: string }) {
       ) : (
         <>
           {t('Ask AI')}
-          <SparklesIcon className="size-6" />
         </>
       )}
     </button>

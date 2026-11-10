@@ -4,8 +4,7 @@ import { appName, gitConfig } from './shared';
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      // JSX supported
-      title: appName,
+      title: <span className="inline-flex items-center gap-2.5"><span className="site-logo-mark" aria-hidden="true" />{appName}</span>,
     },
     githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   };

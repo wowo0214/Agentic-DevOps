@@ -1,6 +1,8 @@
 'use client';
 import { DocsLayout as Layout, type DocsLayoutProps } from 'fumadocs-ui/layouts/docs';
 import { DocsSocialFooter } from '../docs-social-footer';
+import { DocsSidebar } from '../docs-sidebar';
+import { SidebarProvider, SidebarTrigger, useSidebar } from 'fumadocs-ui/layouts/docs/slots/sidebar';
 import { AIChat, AIChatPanel, AIChatTrigger, useAIChat } from './search';
 
 export function DocsLayout(props: DocsLayoutProps) {
@@ -19,6 +21,13 @@ function ChatLayout(props: DocsLayoutProps) {
     <>
       <Layout
         {...props}
+        slots={{ ...props.slots, sidebar: { provider: SidebarProvider, root: DocsSidebar, trigger: SidebarTrigger, useSidebar } }}
+        tabs={{
+          transform: (option) => ({
+            ...option,
+            icon: <span className="docs-app-icon">{option.icon}</span>,
+          }),
+        }}
         containerProps={{
           ...props.containerProps,
           style: {

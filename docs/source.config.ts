@@ -3,10 +3,10 @@ import { defineConfig } from 'fumadocs-mdx/config';
 export default defineConfig({
   mdxOptions: {
     rehypeCodeOptions: {
-      // Keep GitHub syntax highlighting in both color modes.
+      // Match the Fumadocs code block reference in both color modes.
       themes: {
-        dark: 'github-dark',
-        light: 'github-light',
+        dark: 'catppuccin-mocha',
+        light: 'catppuccin-latte',
       },
     },
   },

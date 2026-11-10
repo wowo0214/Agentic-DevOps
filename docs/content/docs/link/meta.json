@@ -1,0 +1,7 @@
+{
+  "title": "Link",
+  "description": "React + Vite · 前端应用",
+  "icon": "Link",
+  "root": true,
+  "pages": ["index"]
+}

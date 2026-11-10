@@ -1,4 +1,4 @@
-import { createOpenRouter } from '@openrouter/ai-sdk-provider';
+import { R } from '@repo/http-contract';
 import {
   APICallError,
   StreamProviderError,
@@ -62,10 +62,6 @@ async function chunkedAll<O>(tasks: (() => Promise<O>)[]): Promise<O[]> {
   return out;
 }
 
-const openrouter = createOpenRouter({
-  apiKey: process.env.OPENROUTER_API_KEY,
-});
-
 /** System prompt, you can update it to provide more specific information */
 const systemPrompt = [
   'You are an AI assistant for a documentation site.',
@@ -76,24 +72,16 @@ const systemPrompt = [
 ].join('\n');
 
 export async function POST(req: Request) {
-  const model = process.env.OPENROUTER_MODEL;
-  if (!process.env.OPENROUTER_API_KEY || !model) {
-    return Response.json(
-      { error: 'Configure OPENROUTER_API_KEY and OPENROUTER_MODEL.' },
-      { status: 503 },
-    );
-  }
-
   let reqJson: unknown;
   try {
     reqJson = await req.json();
   } catch {
-    return Response.json({ error: 'Invalid JSON request.' }, { status: 400 });
+    return R.error('Invalid JSON request.', 400);
   }
 
   const body = z.object({ messages: z.array(z.unknown()).min(1) }).safeParse(reqJson);
   if (!body.success) {
-    return Response.json({ error: 'A non-empty messages array is required.' }, { status: 400 });
+    return R.error('A non-empty messages array is required.', 400);
   }
   const validated = await safeValidateUIMessages<ChatUIMessage>({
     messages: body.data.messages,
@@ -103,11 +91,11 @@ export async function POST(req: Request) {
     tools: { search: searchTool },
   });
   if (!validated.success || validated.data.some((message) => message.role === 'system')) {
-    return Response.json({ error: 'Invalid chat messages.' }, { status: 400 });
+    return R.error('Invalid chat messages.', 400);
   }
 
   const result = streamText({
-    model: openrouter.chat(model),
+    model: 'nvidia/nemotron-3.5-lightning-free',
     abortSignal: req.signal,
     stopWhen: stepCountIs(5),
     tools: {
@@ -134,9 +122,9 @@ export async function POST(req: Request) {
           if (error.statusCode === 503) return '模型服务暂时过载，请稍后重试。';
           if (error.statusCode === 429) return '已达到模型请求频率或免费额度限制，请稍后重试。';
           if (error.statusCode === 401 || error.statusCode === 403)
-            return '模型服务认证失败，请检查 OpenRouter API Key 和模型访问权限。';
+            return '模型服务认证失败，请检查 AI Gateway API Key 和模型访问权限。';
           if (error.statusCode === 402)
-            return '模型服务要求账户余额，请检查 OpenRouter 账户与模型配置。';
+            return '模型服务要求账户余额，请检查 Vercel AI Gateway 账户与模型配置。';
         }
         return '聊天请求失败，请查看服务器日志。';
       },
