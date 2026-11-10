@@ -1,0 +1,7 @@
+{
+  "title": "Admin",
+  "description": "Next.js · 管理平台",
+  "icon": "PanelsTopLeft",
+  "root": true,
+  "pages": ["index", "authentication"]
+}

@@ -1,63 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { Dialog } from '@base-ui/react/dialog';
 import { useEffect, useRef, useState } from 'react';
-import { ArrowUpRight, ArrowRight, X, Menu, MoveUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, X } from 'lucide-react';
 
 export function PlatformButton() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   return <><button className="m2p-button" onClick={() => dialogRef.current?.showModal()}>Enter Platform <ArrowUpRight size={17} /></button><dialog ref={dialogRef} className="m2p-dialog"><button className="m2p-dialog-close" aria-label="Close" onClick={() => dialogRef.current?.close()}><X size={20} /></button><p className="m2p-eyebrow">M2PLINK</p><h2>Your laboratory connection.</h2><p>This homepage is a preview. Platform navigation will be connected later. Explore the documentation to get started.</p><Link href="/docs" className="m2p-button">Read Docs <ArrowRight size={17} /></Link></dialog></>;
-}
-
-export function HomeNav() {
-  const [compact, setCompact] = useState(false);
-  const [open, setOpen] = useState(false);
-  useEffect(() => {
-    // Prisma's published header switches at scrollY > 24.
-    const onScroll = () => setCompact(window.scrollY > 24);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-  useEffect(() => {
-    const desktop = window.matchMedia('(min-width: 768px)');
-    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
-    desktop.addEventListener('change', closeOnDesktop);
-    return () => desktop.removeEventListener('change', closeOnDesktop);
-  }, []);
-  const links = [
-    { href: '#why', label: 'Why M2PLink' },
-    { href: '#workflow', label: 'Workflow' },
-    { href: '#capabilities', label: 'Capabilities' },
-    { href: '/docs', label: 'Docs' },
-    { href: '/blog', label: 'Blog' },
-  ];
-  return (
-    <header className="m2p-nav-header">
-      <div className={`m2p-nav ${compact ? 'is-compact' : ''}`}>
-        <Link className="m2p-wordmark" href="/">M2P<span>Link</span><MoveUpRight size={19} /></Link>
-        <nav aria-label="Main navigation">
-          {links.map(link => <Link key={link.href} href={link.href}>{link.label}</Link>)}
-        </nav>
-        <div className="m2p-nav-actions"><PlatformButton /></div>
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger className="m2p-menu" aria-label="Open menu"><Menu size={20} strokeWidth={1} /></Dialog.Trigger>
-          <Dialog.Portal>
-            <Dialog.Backdrop className="m2p-menu-backdrop" />
-            <Dialog.Popup className="m2p-menu-panel" aria-describedby={undefined}>
-              <Dialog.Title className="m2p-menu-title">Menu</Dialog.Title>
-              <Dialog.Close className="m2p-menu-close" aria-label="Close menu"><X size={16} /></Dialog.Close>
-              <nav aria-label="Mobile navigation">
-                {links.map(link => <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>)}
-                <div className="m2p-menu-platform"><PlatformButton /></div>
-              </nav>
-            </Dialog.Popup>
-          </Dialog.Portal>
-        </Dialog.Root>
-      </div>
-    </header>
-  );
 }
 
 export function ResponseExperiment() {

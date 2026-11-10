@@ -1,22 +1,21 @@
 import { createGetUrl } from 'fumadocs-core/source';
 
-export const appName = 'My App';
+export const appName = 'M2PDocs';
 export const docsRoute = '/docs';
 export const docsImageRoute = '/og/docs';
 export const docsContentRoute = '/llms.mdx/docs';
 
-// fill this with your actual GitHub info, for example:
 export const gitConfig = {
   user: 'wowo0214',
   repo: 'devops-turbo',
   branch: 'main',
-  docsPath: 'apps/docs/content/docs',
+  docsPath: 'docs/content/docs',
 };
 
 const getContentUrl = createGetUrl(docsContentRoute);
 
 export function getPageMarkdownUrl(page: { slugs: string[]; locale?: string }) {
-  const segments = [...page.slugs, 'content.md'];
+  const segments = page.slugs;
 
   return { segments, url: getContentUrl(segments, page.locale) };
 }
@@ -24,7 +23,7 @@ export function getPageMarkdownUrl(page: { slugs: string[]; locale?: string }) {
 const getImageUrl = createGetUrl(docsImageRoute);
 
 export function getPageImageUrl(page: { slugs: string[]; locale?: string }) {
-  const segments = [...page.slugs, 'image.png'];
+  const segments = page.slugs;
 
   return { segments, url: getImageUrl(segments, page.locale) };
 }

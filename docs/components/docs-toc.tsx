@@ -4,7 +4,7 @@ import { cn } from "cn";
 import { useTranslations } from "@fuma-translate/react";
 import { TOCScrollArea, useTOCItems } from "fumadocs-ui/components/toc";
 import * as normal from "fumadocs-ui/components/toc/default";
-import * as clerk from "./docs-toc-tree";
+import * as clerk from "fumadocs-ui/components/toc/clerk";
 import * as block from "fumadocs-ui/components/toc/block";
 import type { TOCProps } from "fumadocs-ui/layouts/docs/page/slots/toc";
 
@@ -33,7 +33,7 @@ function InkeepText() {
 
 const variants = { normal, clerk, block };
 
-// Keep Fumadocs' TOC primitives with Inkeep's title and tree geometry.
+// Use Fumadocs TOC styles with the existing title and layout.
 export function DocsTOC({
   container,
   header,
@@ -72,7 +72,7 @@ export function DocsTOC({
         {t("On this page")}
       </h3>
       <TOCScrollArea className="ms-px">
-        <TOCItems {...list}>
+        <TOCItems {...list} className={cn(style === "clerk" && "docs-toc-clerk", list?.className)}>
           {items.length === 0 && <TOCEmpty />}
           {items.map((item) => (
             <TOCItem key={item.url} item={item} />

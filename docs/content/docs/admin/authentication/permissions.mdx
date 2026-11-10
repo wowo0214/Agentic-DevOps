@@ -1,0 +1,163 @@
+---
+title: 权限控制
+description: Admin 的角色、权限目录、资源范围，以及页面和接口的权限接入方式。
+icon: ShieldCheck
+---
+
+Admin 在 Better Auth 会话之上，通过业务权限表控制页面与接口访问。认证说明当前用户是谁，权限控制决定用户能执行什么操作；具体数据还需要检查资源归属或成员关系。登录与会话的实现见[登录与会话](/docs/admin/authentication/login)。
+
+## 检查流程
+
+`Better Auth 会话 → 角色授权 → 资源范围 → 业务操作`
+
+菜单按权限过滤，页面和接口在服务端独立校验。认证入口与 Proxy 的职责见[会话与请求入口](/docs/admin/authentication/login#会话与请求入口)。
+
+| 模块 | 职责 |
+| --- | --- |
+| `lib/permissions/catalog.ts` | 权限码和各角色的默认授权 |
+| `scripts/sync-permissions.ts` | 将目录同步到运行时权限表 |
+| `lib/permissions/server.ts` | 读取角色授权，提供页面和接口的权限检查 |
+| `components/sidebar/sidebar-navigation.tsx` | 按权限过滤菜单 |
+| `lib/chat/server.ts` | 社群身份、操作权限与成员关系检查的业务示例 |
+
+## 角色的来源
+
+用户创建时，服务端 `databaseHooks.user.create.before` 决定初始角色：
+
+- 匿名用户为 `guest`。
+- 其他新注册用户为 `user`。
+- `admin` 不通过注册获得，由管理员后续授予。
+
+客户端提交的角色不能覆盖这个创建规则。每个用户只有一个 `user.role`，不支持多角色合并，也没有租户维度。
+
+## 角色与业务权限
+
+### 权限目录和运行时数据
+
+`catalog.ts` 定义权限码与默认授权，`permission` 和 `role_permission` 表保存运行时数据。运行时只查询数据库，不把代码中的默认授权作为查不到数据时的兜底。
+
+三种角色的默认授权是包含关系：`admin` 包含 `user` 的权限，`user` 包含 `guest` 的权限。包含关系通过目录里的数组展开实现；运行时只读取当前角色自己的授权行，不动态向其他角色继承。
+
+| 能力 | 权限码 | 默认角色 |
+| --- | --- | --- |
+| 工作台 | `dashboard:read` | guest、user、admin |
+| 自定义模块 | `module:read` | guest、user、admin |
+| 测试 | `test:read` | guest、user、admin |
+| 实验管理 | `experiment:read` | guest、user、admin |
+| 公共资源 | `public-resource:read` | guest、user、admin |
+| 发布管理 | `publication:read` | guest、user、admin |
+| 社群会话与消息读取 | `conversation:read` | guest、user、admin；guest 只读示例 |
+| 创建私聊或群聊 | `conversation:create` | user、admin |
+| 发送消息 | `message:send` | user、admin |
+| 更新自己的已读进度 | `conversation:mark-read` | user、admin |
+| 搜索交流对象 | `community:user:search` | user、admin |
+| 维护管理 | `maintenance:read` | admin |
+| 查看用户账号 | `user:read` | admin |
+| 修改用户角色 | `user:role:update` | admin |
+| 内容管理 | `content:read` | admin |
+| 文档管理 | `doc:read` | admin |
+| 运行监控 | `monitoring:read` | admin |
+| 日志管理 | `log:read` | admin |
+
+这个表描述默认授权，实际访问以数据库中的授权为准。权限和页面入口已经接入，不代表各模块的完整业务都已实现。
+
+### Principal 与权限检查
+
+`principalFor(user)` 将会话用户转换为业务身份，包含 `id`、`role`、`permissions` 和 `has(code)`：
+
+- 匿名身份始终按 `guest` 处理。
+- 非匿名用户缺少角色或角色为空时按 `user` 处理。
+- 未知角色没有授权行，因此没有业务权限。
+- 会话用户已标记为封禁时，业务权限集合为空。
+- `admin` 没有业务权限绕过通道，同样需要对应授权行。
+
+页面调用 `requirePagePermission`，无权限时通过 `notFound()` 显示不存在页面。接口调用 `requirePermission`，无权限时抛出状态为 `403` 的 `PermissionError`。
+
+侧栏也使用 `principalFor` 过滤菜单，与页面共用同一个读取权限码，不额外设置 `menu:*` 权限。隐藏菜单只改善界面呈现，页面和接口仍必须在服务端检查权限。
+
+个人设置是登录用户管理自身资料的入口，不在业务权限目录中单设权限码。它仍要求会话，具体账号操作由对应认证接口处理。
+
+### 操作权限与资源范围
+
+权限码只决定能否执行某类操作，不能决定能否操作某一条数据。
+
+例如，`message:send` 允许发消息，但发送到具体会话前仍需确认当前用户是该会话成员。`lib/chat/server.ts` 负责这些成员关系检查；非成员访问受保护的会话资源时返回 `404`，不透露资源是否存在。
+
+`admin` 也不能仅凭角色跳过会话成员检查。新增业务时，同样需要明确资源所属用户、团队或其他业务关系，并在服务端查询或操作中落实。
+
+### Better Auth 管理插件的边界
+
+项目同时启用了 Better Auth 的 `admin()` 插件。它负责自身管理接口的权限规则，与业务的 `role_permission` 表不是同一套检查机制。
+
+例如 `/users` 页面先检查业务权限 `user:read`，然后调用插件的 `auth.api.listUsers`；后者还会执行插件自身的管理权限检查。仅在业务表中授予 `user:read`，不等于自动获得所有 Better Auth 管理 API 的访问资格。
+
+当前 `/api/users/[userId]` 的 `PATCH` 是一个有限用途实现：虽然检查了 `user:role:update`，但更新对象仍是代码中的固定邮箱，没有使用路径里的 `userId`，也没有在该接口中撤销会话。它不能作为通用角色编辑接口直接复用。
+
+角色和封禁状态取自会话用户，变更可能受到 5 分钟会话缓存影响，详见[会话缓存](/docs/admin/authentication/login#会话缓存)。
+
+## 新功能如何接入
+
+### 1. 声明并同步权限
+
+先在 `catalog.ts` 中复用或新增语义明确的权限码，再加入需要获得它的角色授权。普通权限码变动不需要改变表结构。
+
+修改目录后，需要同步到运行环境的数据库：
+
+```sh title="终端"
+# 在 Admin 应用根目录执行
+pnpm run permissions:sync
+```
+
+脚本会同步权限定义、移除已定义角色的多余授权，并清理已删除的权限码。它会写数据库，执行前按仓库约定先确认目标环境和变更；只改目录文件不会自动改变运行时授权。
+
+### 2. 页面校验与菜单保持一致
+
+页面先取会话，再检查读取权限。下面是现有社群页面中服务端内容组件的核心逻辑：
+
+```tsx title="app/(views)/community/page.tsx（节选）"
+const { session } = await requireSession()
+const principal = await requirePagePermission(
+  session.user,
+  'conversation:read',
+)
+```
+
+两个函数分别来自 `@/lib/require-session` 与 `@/lib/permissions/server`。外层页面按项目现有写法使用 `Suspense` 包裹请求时读取会话的内容组件，参考 `app/(views)/community/page.tsx`。
+
+在 `components/sidebar/sidebar-navigation.tsx` 的菜单项上使用同一权限码。页面中的按钮可以依据权限调整显示，但后端必须独立校验。
+
+### 3. 接口校验后再进入业务
+
+接口按“会话 → 权限 → 参数校验 → 资源范围 → 业务操作 → 响应”的顺序组织。下面示意一个需要 `conversation:read` 的读取接口入口，业务查询应接在权限检查之后：
+
+```ts title="route.ts（接入示例）"
+import { auth } from '@/lib/auth/auth'
+import { PermissionError, requirePermission } from '@/lib/permissions/server'
+import { R } from '@repo/http-contract'
+
+export async function GET(request: Request) {
+  try {
+    const session = await auth.api.getSession({ headers: request.headers })
+    if (!session) return R.error('请先登录', 401)
+
+    await requirePermission(session.user, 'conversation:read')
+
+    // 实际业务在这里校验参数、限制资源范围并读取数据。
+    return R.ok({ userId: session.user.id })
+  } catch (error) {
+    if (error instanceof PermissionError) {
+      return R.error(error.message, error.status)
+    }
+    console.error(error)
+    return R.error('暂时无法完成操作，请稍后重试')
+  }
+}
+```
+
+这个片段只展示入口结构，不是会话数据查询实现。社群已有 `chatIdentity`、`allow` 和成员关系检查，应沿用模块内的现有函数。复杂业务放到有名字的函数里，避免堆在路由处理函数中。
+
+新业务接口统一使用 `@repo/http-contract` 的 `R` 响应；SSE 等流式接口才使用原生 `Response` 承载流。Better Auth 自身接口继续由其处理器返回，不在外层改写响应格式。
+
+## 维护约定
+
+修改角色默认授权、权限检查入口或资源范围规则时，同步更新本页。业务待办与后续部署调整继续记录在仓库 [TODO](https://github.com/wowo0214/devops-turbo/blob/main/plans/TODO.md)。

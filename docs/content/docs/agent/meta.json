@@ -1,0 +1,7 @@
+{
+  "title": "Agent",
+  "description": "Vercel AI SDK · AI 应用",
+  "icon": "Bot",
+  "root": true,
+  "pages": ["index"]
+}

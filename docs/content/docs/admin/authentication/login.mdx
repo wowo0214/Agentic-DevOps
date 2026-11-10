@@ -1,0 +1,125 @@
+---
+title: 登录与会话
+description: Admin 的登录方式、邮箱验证、密码找回与会话管理。
+icon: LogIn
+---
+
+Admin 使用 Better Auth 管理账号和会话，认证表单由共享的 UI 包提供。本文说明登录相关流程和请求如何取得当前用户；角色授权与业务访问检查见[权限控制](/docs/admin/authentication/permissions)。
+
+## 模块结构
+
+| 模块 | 职责 |
+| --- | --- |
+| `lib/auth/auth.ts` | 服务端认证配置、数据库连接和插件 |
+| `lib/auth/auth-client.ts` | 客户端认证实例 |
+| `lib/auth/email-otp.ts` | 邮箱验证码与密码注册的组合流程 |
+| `lib/auth/risk-captcha.ts` | 按请求风险触发 Turnstile 验证 |
+| `app/api/auth/[...all]/route.ts` | 将认证请求交给 Better Auth |
+| `lib/require-session.ts` | 页面端获取会话，未登录时跳转 |
+| `components/providers.tsx` | 认证 UI、客户端状态和导航的接入 |
+| `packages/ui/src/auth/` | 共享认证表单和个人设置组件 |
+
+## 身份认证
+
+### 登录方式
+
+当前配置了邮箱密码登录、Google / GitHub / Slack 第三方登录和匿名访客登录。第三方登录需要对应服务端凭据及提供商回调配置，不能仅凭按钮显示就判断部署环境已经可用。
+
+`/auth/[path]` 按共享认证库的路径定义渲染登录、注册、邮箱验证、密码找回等视图；未知路径返回不存在页面。前端通过 `authClient` 调用 `/api/auth`，服务端由 `toNextJsHandler(auth)` 承接请求。
+
+邮箱密码登录要求邮箱已验证。普通的 `/sign-up/email` 注册被禁用，当前注册表单使用自定义的验证码注册流程。
+
+### 邮箱验证码注册
+
+注册表单先收集账号信息和密码，再请求邮箱验证码。发送验证码使用 `/email-otp/send-verification-otp`，类型为 `sign-in`；最终提交到 `/sign-up/email-otp`。这些路径均相对 `/api/auth`。
+
+验证码由 Better Auth 的 Email OTP 插件管理，当前参数为：
+
+| 配置 | 当前值 |
+| --- | --- |
+| 验证码长度 | 6 位 |
+| 有效期 | 300 秒 |
+| 允许尝试次数 | 3 次 |
+| 存储方式 | 哈希 |
+| 自定义注册接口限流 | 60 秒内最多 3 次 |
+
+`emailOTPWithPassword` 在原生 OTP 能力上增加密码写入，核心过程是：
+
+1. 校验密码长度并计算密码哈希。
+2. 在数据库事务内验证 OTP，取得或创建对应用户。
+3. 确认邮箱已验证，撤销该用户已有会话。
+4. 更新已有密码凭据，或创建新的密码凭据。
+5. 创建最终会话，事务成功后写入会话 Cookie。
+
+这个接口不只是“创建新账号”：对于已有邮箱，验证码验证通过后会更新密码，并建立新会话。维护时需要保留这一行为，不能把它当作遇到重复邮箱就拒绝的普通注册接口。
+
+验证码失败会保留失败次数；后续数据库操作失败则回滚事务，避免留下只完成一半的账号或凭据。原生 OTP 验证过程中产生的临时会话不会作为最终登录结果返回。
+
+### 邮箱验证与密码找回
+
+Email OTP 插件接管默认邮箱验证，邮件通过项目的 `sendEmail` 发送。密码登录遇到未验证邮箱时配置为发送验证邮件，验证成功后允许自动登录。
+
+“忘记密码”视图使用 Better Auth 的密码重置邮件流程：申请重置链接，再通过链接设置新密码。服务端启用了 `revokeSessionsOnPasswordReset`，重置成功会撤销已有会话。这与验证码注册接口更新已有密码是两条入口，不应混为同一个前端流程。
+
+### 访客登录
+
+访客登录创建匿名身份和会话。它不是“未登录用户”，可以进入获得授权的体验页面；退出后无法凭账号密码重新登录原匿名身份。社群对访客返回固定示例数据，不开放真实聊天写入。
+
+新用户的初始角色由服务端创建钩子决定，规则见[角色的来源](/docs/admin/authentication/permissions#角色的来源)。
+
+## 会话与请求入口
+
+### Proxy 与服务端校验
+
+`proxy.ts` 使用 `getSessionCookie` 判断请求是否携带会话 Cookie。它只是入口筛选，不能证明 Cookie 对应的会话有效。
+
+页面最终通过 `requireSession()` 获取会话。该函数在请求时读取 Headers，使用 `ensureSessionServer` 载入认证状态，并返回 `session` 和供页面水合使用的 `queryClient`。没有有效会话时跳转到 `/auth/sign-in?redirectTo=...`。
+
+Proxy 将当前路径及查询参数写入 `x-auth-return-to`，覆盖客户端传入的同名值。`requireSession` 使用它生成站内返回地址；不接受协议相对地址或包含反斜杠的路径。
+
+业务接口直接通过 `auth.api.getSession({ headers: request.headers })` 获取会话，并在没有会话时返回 `401`。但请求可能先被 Proxy 拦截：当前 Proxy 也覆盖业务 API，没有 Cookie 时会跳转登录页；非读取请求还可能先因来源不合法返回 `403`。因此，不能把所有未登录 API 请求都描述为必然返回 JSON `401`。
+
+### 会话缓存
+
+Better Auth 使用签名 Cookie 缓存会话，当前 `maxAge` 为 5 分钟。这样多数请求不必重复查询会话数据库。
+
+这也意味着角色、封禁状态或会话撤销可能存在最多约 5 分钟的缓存窗口。密码重置撤销数据库会话，不代表其他浏览器中已有的会话缓存立即失效；当前项目接受这个窗口。
+
+业务权限查询与会话缓存是两件事：`grantsFor` 的 React `cache` 用于同一次服务端渲染中的查询复用，没有增加跨请求的长期角色权限缓存。角色取自当前读取到的会话用户，角色对应的授权则查询数据库。
+
+### 写请求来源检查
+
+对 Proxy 匹配的请求，除 `GET`、`HEAD`、`OPTIONS` 外，`Origin` 必须是本站地址或 `TRUSTED_ORIGINS` 中的来源，否则返回 `403`。白名单当前为空。
+
+调用业务写接口的外部工具或服务也需要考虑这条规则，只有会话 Cookie 并不够。`/api/auth` 不经过此检查，使用 Better Auth 自己的认证入口保护。
+
+当前本站地址取自 `request.nextUrl.origin`。反向代理终止 HTTPS 时可能出现协议识别差异；部署调整事项见仓库 [TODO](https://github.com/wowo0214/devops-turbo/blob/main/plans/TODO.md) 的“写请求来源检查”。
+
+## 风险验证与运行配置
+
+Better Auth 已启用请求限流。除此之外，`riskCaptcha` 在指定的邮箱认证接口上按客户端 IP 统计请求与失败次数，必要时要求 Turnstile 验证。
+
+当前窗口为 10 分钟。没有提交验证令牌时，累计 3 次认证失败后的下一次受保护请求，或窗口内第 11 次请求，会触发 `CAPTCHA_REQUIRED`。客户端随后提交 `x-captcha-response`；验证成功后清空该客户端的风险计数。
+
+计数保存在当前进程内，多实例间不共享，不能理解为全局统一计数。具体覆盖的认证路径以 `auth.ts` 中的 `endpoints` 列表为准。
+
+| 配置 | 用途 |
+| --- | --- |
+| `DATABASE_URL` | Better Auth 使用的 PostgreSQL 连接 |
+| `BETTER_AUTH_SECRET` / `BETTER_AUTH_URL` | 认证密钥与站点地址，由 Better Auth 读取 |
+| `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google 登录 |
+| `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET` | GitHub 登录 |
+| `SLACK_CLIENT_ID` / `SLACK_CLIENT_SECRET` | Slack 登录 |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` | 前端挑战组件与服务端验证 |
+
+Turnstile 两个配置必须同时设置或同时省略；只设置一个会在初始化时抛错。全部省略时风险验证码插件不执行挑战。邮件发送配置见 `lib/resend.ts`。
+
+认证存储当前使用 `pg.Pool`，业务权限查询使用 `@/app/prisma/db` 的 Prisma ORM。维护时应按实际模块边界理解，不能假设所有数据库访问都已统一到同一适配器。
+
+## 开发接入
+
+页面通过 `@/lib/require-session` 的 `requireSession()` 获取当前会话；业务接口通过 `auth.api.getSession({ headers: request.headers })` 获取会话。不要把客户端缓存或 Proxy 中 Cookie 的存在性检查当作最终认证结果。
+
+新增登录方式时，同时检查服务端 `auth.ts`、客户端 `auth-client.ts` 与 `components/providers.tsx` 的配置；共享表单放在 `packages/ui/src/auth/`，Admin 的认证策略保留在应用内。
+
+拿到会话后，仍需按业务功能检查操作权限与资源范围，具体接入示例见[权限控制](/docs/admin/authentication/permissions#新功能如何接入)。
